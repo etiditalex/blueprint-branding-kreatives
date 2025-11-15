@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import PortfolioGrid from "@/components/sections/PortfolioGrid";
+import WebsitesSection from "@/components/sections/WebsitesSection";
+import GraphicDesignGallery from "@/components/sections/GraphicDesignGallery";
 import CtaSection from "@/components/sections/CtaSection";
 
 export const metadata: Metadata = {
@@ -24,7 +25,8 @@ export default function PortfolioPage() {
             </p>
           </div>
         </div>
-        <PortfolioGrid />
+        <WebsitesSection />
+        <GraphicDesignGallery />
         <CtaSection />
       </div>
       <Footer />
