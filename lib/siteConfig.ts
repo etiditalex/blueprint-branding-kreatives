@@ -8,10 +8,36 @@ export const siteMetadata = {
 export const navigationItems = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
+  { name: "Websites", href: "/websites", hasDropdown: true },
+  { name: "SEO", href: "/seo", hasDropdown: true },
   { name: "Portfolio", href: "/portfolio" },
   { name: "Insights", href: "/insights" },
-  { name: "About", href: "/about" },
+  { name: "About", href: "/about", hasDropdown: true },
   { name: "Contact", href: "/contact" },
+];
+
+export const websitesSubPages = [
+  { name: "Web Hosting & Domain Registration", href: "/websites/web-hosting-domain" },
+  { name: "Content Creation", href: "/websites/content-creation" },
+  { name: "Website Maintenance", href: "/websites/maintenance" },
+];
+
+export const seoSubPages = [
+  { name: "General SEO", href: "/seo/general-seo" },
+  { name: "E-commerce SEO", href: "/seo/ecommerce-seo" },
+  { name: "Local SEO", href: "/seo/local-seo" },
+  { name: "On-Page SEO", href: "/seo/onpage-seo" },
+  { name: "Technical SEO", href: "/seo/technical-seo" },
+];
+
+export const aboutSubPages = [
+  { name: "Our Story", href: "/about/our-story" },
+  { name: "How We Use AI", href: "/about/ai" },
+  { name: "Partnership", href: "/about/partnership" },
+  { name: "Our Team", href: "/about/team" },
+  { name: "FAQ", href: "/about/faq" },
+  { name: "Testimonials", href: "/about/testimonials" },
+  { name: "Industries We Serve", href: "/about/industries" },
 ];
 
 export const heroSection = {

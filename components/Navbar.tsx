@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { navigationItems, logoUrl } from "@/lib/siteConfig";
+import { navigationItems, logoUrl, websitesSubPages, seoSubPages, aboutSubPages } from "@/lib/siteConfig";
+import DropdownNav from "@/components/DropdownNav";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -42,15 +43,32 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigationItems.map((item) => {
+              if (item.name === "Websites") {
+                return (
+                  <DropdownNav key={item.name} title={item.name} items={websitesSubPages} />
+                );
+              }
+              if (item.name === "SEO") {
+                return (
+                  <DropdownNav key={item.name} title={item.name} items={seoSubPages} />
+                );
+              }
+              if (item.name === "About") {
+                return (
+                  <DropdownNav key={item.name} title={item.name} items={aboutSubPages} />
+                );
+              }
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200"
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
             <Link
               href="/booking"
               className="px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-colors duration-200"
@@ -86,16 +104,90 @@ export default function Navbar() {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigationItems.map((item) => {
+              if (item.name === "Websites") {
+                return (
+                  <div key={item.name} className="mb-2">
+                    <Link
+                      href={item.href}
+                      className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                    <div className="pl-4 space-y-1">
+                      {websitesSubPages.map((subPage) => (
+                        <Link
+                          key={subPage.href}
+                          href={subPage.href}
+                          className="block py-1 text-sm text-gray-600 hover:text-primary-600 transition-colors"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {subPage.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              if (item.name === "SEO") {
+                return (
+                  <div key={item.name} className="mb-2">
+                    <Link
+                      href={item.href}
+                      className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                    <div className="pl-4 space-y-1">
+                      {seoSubPages.map((subPage) => (
+                        <Link
+                          key={subPage.href}
+                          href={subPage.href}
+                          className="block py-1 text-sm text-gray-600 hover:text-primary-600 transition-colors"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {subPage.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              if (item.name === "About") {
+                return (
+                  <div key={item.name} className="mb-2">
+                    <Link
+                      href={item.href}
+                      className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                    <div className="pl-4 space-y-1">
+                      {aboutSubPages.map((subPage) => (
+                        <Link
+                          key={subPage.href}
+                          href={subPage.href}
+                          className="block py-1 text-sm text-gray-600 hover:text-primary-600 transition-colors"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {subPage.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
             <Link
               href="/booking"
               className="block mt-4 px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg text-center transition-colors"
