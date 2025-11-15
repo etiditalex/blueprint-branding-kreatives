@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicesOverviewSection from "@/components/sections/ServicesOverviewSection";
 import ServiceDetailSection from "@/components/sections/ServiceDetailSection";
+import InfographicSection from "@/components/sections/InfographicSection";
 import CtaSection from "@/components/sections/CtaSection";
 
 export const metadata: Metadata = {
@@ -40,6 +41,9 @@ export default function ServicesPage() {
         <div className="py-24 bg-gradient-to-b from-gray-50 to-white">
           <ServicesOverviewSection />
         </div>
+
+        {/* Infographic Section */}
+        <InfographicSection />
 
         {/* Service Details with Modern Design */}
         <div className="py-20 bg-white">
