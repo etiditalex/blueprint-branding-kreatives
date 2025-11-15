@@ -15,7 +15,7 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen">
       <Navbar />
-      <div className="pt-20">
+      <div className="pt-24">
         <AboutSection />
         <PhilosophySection />
         <VisionMissionSection />

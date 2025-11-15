@@ -14,7 +14,7 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen">
       <Navbar />
-      <div className="pt-20">
+      <div className="pt-24">
         <div className="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">

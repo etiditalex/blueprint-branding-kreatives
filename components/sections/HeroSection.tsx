@@ -9,7 +9,7 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 text-white overflow-hidden pt-20"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 text-white overflow-hidden pt-24"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
