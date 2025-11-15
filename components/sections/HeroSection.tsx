@@ -3,7 +3,6 @@
 import { useTypingAnimation } from "@/lib/hooks/useTypingAnimation";
 import { heroSection } from "@/lib/siteConfig";
 import Link from "next/link";
-import HeroCarousel from "./HeroCarousel";
 
 export default function HeroSection() {
   const typingText = useTypingAnimation(heroSection.typingWords, 100, 50, 2000);
@@ -32,50 +31,42 @@ export default function HeroSection() {
       <div className="absolute top-40 right-10 w-72 h-72 bg-primary-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000" />
       <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-accent-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000" />
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side - Text Content */}
-          <div className="text-center lg:text-left animate-fade-in">
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold mb-6 text-white drop-shadow-2xl leading-tight">
-              {heroSection.title}
-            </h1>
-            <p className="text-xl sm:text-2xl lg:text-3xl mb-8 text-gray-100 drop-shadow-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              {heroSection.description}
-            </p>
-            
-            <div className="h-20 sm:h-24 flex items-center justify-center lg:justify-start mb-10">
-              <div className="relative">
-                <span className="text-3xl sm:text-4xl lg:text-6xl font-bold text-accent-300 drop-shadow-2xl bg-gradient-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent">
-                  {typingText}
-                </span>
-                <span className="animate-pulse text-accent-300 ml-2">|</span>
-              </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              {heroSection.ctaButtons.map((button, index) => (
-                <Link
-                  key={button.text}
-                  href={button.href}
-                  className={`group relative px-10 py-5 font-bold rounded-xl shadow-2xl transform transition-all duration-300 hover:scale-110 ${
-                    index === 0
-                      ? "bg-gradient-to-r from-accent-500 to-accent-600 text-white hover:from-accent-600 hover:to-accent-700"
-                      : "bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/50"
-                  }`}
-                >
-                  <span className="relative z-10">{button.text}</span>
-                  {index === 0 && (
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  )}
-                </Link>
-              ))}
-            </div>
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="animate-fade-in">
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold mb-6 text-white drop-shadow-2xl leading-tight">
+            {heroSection.title}
+          </h1>
+          <p className="text-xl sm:text-2xl lg:text-3xl mb-8 text-gray-100 drop-shadow-lg max-w-3xl mx-auto leading-relaxed">
+            {heroSection.description}
+          </p>
+        </div>
+        
+        <div className="h-20 sm:h-24 flex items-center justify-center mb-10">
+          <div className="relative">
+            <span className="text-3xl sm:text-4xl lg:text-6xl font-bold text-accent-300 drop-shadow-2xl bg-gradient-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent">
+              {typingText}
+            </span>
+            <span className="animate-pulse text-accent-300 ml-2">|</span>
           </div>
-
-          {/* Right Side - Carousel */}
-          <div className="relative h-[500px] lg:h-[600px] w-full">
-            <HeroCarousel />
-          </div>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          {heroSection.ctaButtons.map((button, index) => (
+            <Link
+              key={button.text}
+              href={button.href}
+              className={`group relative px-10 py-5 font-bold rounded-xl shadow-2xl transform transition-all duration-300 hover:scale-110 ${
+                index === 0
+                  ? "bg-gradient-to-r from-accent-500 to-accent-600 text-white hover:from-accent-600 hover:to-accent-700"
+                  : "bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/50"
+              }`}
+            >
+              <span className="relative z-10">{button.text}</span>
+              {index === 0 && (
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              )}
+            </Link>
+          ))}
         </div>
       </div>
 
