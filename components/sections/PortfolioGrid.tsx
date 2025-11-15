@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { portfolioItems } from "@/lib/siteConfig";
 
 export default function PortfolioGrid() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   
   const categories = ["All", ...Array.from(new Set(portfolioItems.map(item => item.category)))];
   
@@ -34,60 +34,66 @@ export default function PortfolioGrid() {
           ))}
         </div>
 
-        {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4">
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+              className="group relative aspect-square overflow-hidden cursor-pointer bg-gray-100 rounded-lg"
+              onClick={() => setSelectedImage(item.image)}
             >
-              <div className="relative h-64 overflow-hidden">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-primary-600 opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex items-center justify-center">
-                  <Link
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white font-semibold px-6 py-3 bg-accent-500 rounded-lg hover:bg-accent-600 transition-colors"
-                  >
-                    View Project
-                  </Link>
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-primary-600 font-semibold">
-                    {item.category}
-                  </span>
-                  <span className="text-xs text-gray-500">{item.id}</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 mb-4 text-sm">
-                  {item.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {item.technologies.map((tech, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              {/* Overlay on hover */}
+              <div className="absolute inset-0 bg-primary-600/0 group-hover:bg-primary-600/80 transition-all duration-300 flex items-center justify-center">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4">
+                  <h3 className="text-white font-bold text-sm mb-1">{item.title}</h3>
+                  <p className="text-white/90 text-xs">{item.category}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Image Modal/Lightbox */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-7xl max-h-[90vh] w-full h-full">
+            <Image
+              src={selectedImage}
+              alt="Portfolio Image"
+              fill
+              className="object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/70 rounded-full p-2 transition-colors"
+              aria-label="Close"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
-
