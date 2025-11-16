@@ -102,16 +102,54 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     content = [post.content || ''];
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.vercel.app';
+  const postUrl = `${siteUrl}/insights/${post.slug}`;
+  
+  // Generate structured data
+  const articleSchema = generateArticleSchema({
+    title: post.title,
+    description: post.excerpt || post.title,
+    image: post.image_url,
+    url: postUrl,
+    publishedTime: post.published_at,
+    modifiedTime: post.updated_at || post.published_at,
+    author: post.author,
+  });
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: siteUrl },
+    { name: 'Insights', url: `${siteUrl}/insights` },
+    { name: post.title, url: postUrl },
+  ]);
+
   return (
-    <main className="min-h-screen">
-      <Navbar />
-      <div className="pt-24">
-        <article className="py-20 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <Link
-              href="/insights"
-              className="inline-flex items-center text-primary-600 hover:text-primary-700 mb-8"
-            >
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <main className="min-h-screen">
+        <Navbar />
+        <div className="pt-24">
+          <article className="py-20 bg-white" itemScope itemType="https://schema.org/Article">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <nav aria-label="Breadcrumb" className="mb-8">
+                <ol className="flex items-center space-x-2 text-sm text-gray-600">
+                  <li><Link href="/" className="hover:text-primary-600">Home</Link></li>
+                  <li>/</li>
+                  <li><Link href="/insights" className="hover:text-primary-600">Insights</Link></li>
+                  <li>/</li>
+                  <li className="text-gray-900">{post.title}</li>
+                </ol>
+              </nav>
+              <Link
+                href="/insights"
+                className="inline-flex items-center text-primary-600 hover:text-primary-700 mb-8"
+              >
               <svg
                 className="w-4 h-4 mr-2"
                 fill="none"
