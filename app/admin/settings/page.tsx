@@ -54,7 +54,7 @@ export default function SettingsPage() {
     }
   };
 
-  const categories = ["all", "general", "seo", "social", "contact", "email"];
+  const categories = ["all", "design", "general", "seo", "social", "contact", "email"];
 
   const filteredSettings =
     activeCategory === "all"
@@ -161,6 +161,22 @@ function SettingItem({
             <option value="true">True</option>
             <option value="false">False</option>
           </select>
+        ) : setting.key.includes("color") ? (
+          <div className="flex gap-2 flex-1">
+            <input
+              type="color"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              className="h-10 w-20 border border-gray-300 rounded-lg cursor-pointer"
+            />
+            <input
+              type="text"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 font-mono text-sm"
+              placeholder="#000000"
+            />
+          </div>
         ) : setting.type === "json" ? (
           <textarea
             value={value}

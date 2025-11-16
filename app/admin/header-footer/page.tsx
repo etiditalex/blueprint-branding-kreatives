@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import ImagePicker from "@/components/admin/ImagePicker";
 
 interface HeaderContent {
   id: string;
   logo_url: string;
   logo_alt_text: string;
+  logo_width?: number;
+  logo_height?: number;
   cta_text: string;
   cta_url: string;
 }
@@ -31,6 +34,8 @@ export default function HeaderFooterPage() {
   const [headerForm, setHeaderForm] = useState({
     logo_url: "",
     logo_alt_text: "",
+    logo_width: 70,
+    logo_height: 70,
     cta_text: "",
     cta_url: "",
   });
@@ -67,6 +72,8 @@ export default function HeaderFooterPage() {
           setHeaderForm({
             logo_url: headerContent.logo_url || "",
             logo_alt_text: headerContent.logo_alt_text || "",
+            logo_width: headerContent.logo_width || 70,
+            logo_height: headerContent.logo_height || 70,
             cta_text: headerContent.cta_text || "",
             cta_url: headerContent.cta_url || "",
           });
@@ -211,16 +218,10 @@ export default function HeaderFooterPage() {
           {activeTab === "header" ? (
             <form onSubmit={handleHeaderSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Logo URL
-                </label>
-                <input
-                  type="url"
+                <ImagePicker
+                  label="Logo"
                   value={headerForm.logo_url}
-                  onChange={(e) =>
-                    setHeaderForm({ ...headerForm, logo_url: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  onChange={(url) => setHeaderForm({ ...headerForm, logo_url: url })}
                 />
               </div>
               <div>
@@ -236,6 +237,54 @@ export default function HeaderFooterPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Logo Width (px)
+                  </label>
+                  <input
+                    type="number"
+                    min="20"
+                    max="200"
+                    value={headerForm.logo_width}
+                    onChange={(e) =>
+                      setHeaderForm({ ...headerForm, logo_width: parseInt(e.target.value) || 70 })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Logo Height (px)
+                  </label>
+                  <input
+                    type="number"
+                    min="20"
+                    max="200"
+                    value={headerForm.logo_height}
+                    onChange={(e) =>
+                      setHeaderForm({ ...headerForm, logo_height: parseInt(e.target.value) || 70 })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  />
+                </div>
+              </div>
+              {headerForm.logo_url && (
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <p className="text-sm text-gray-600 mb-2">Preview:</p>
+                  <div className="inline-block border border-gray-300 rounded p-2 bg-white">
+                    <img
+                      src={headerForm.logo_url}
+                      alt={headerForm.logo_alt_text || "Logo preview"}
+                      style={{
+                        width: `${headerForm.logo_width}px`,
+                        height: `${headerForm.logo_height}px`,
+                        objectFit: "contain",
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
