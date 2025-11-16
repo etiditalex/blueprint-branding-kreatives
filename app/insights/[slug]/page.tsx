@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { generateSEOMetadata, generateArticleSchema, generateBreadcrumbSchema } from "@/lib/seo";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -26,12 +27,20 @@ export async function generateMetadata({
       .eq('published', true)
       .single();
     
-    if (post) {
-      return {
-        title: `${post.title} - Blueprint Branding Kreatives`,
-        description: post.excerpt || post.title,
-      };
-    }
+            if (post) {
+              const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.vercel.app';
+              return generateSEOMetadata({
+                title: post.title,
+                description: post.excerpt || post.title,
+                url: `${siteUrl}/insights/${post.slug}`,
+                type: 'article',
+                image: post.image_url,
+                publishedTime: post.published_at,
+                modifiedTime: post.updated_at || post.published_at,
+                author: post.author,
+                keywords: post.category ? [post.category] : [],
+              });
+            }
   } catch (error) {
     console.error("Error fetching post metadata:", error);
   }
@@ -129,9 +138,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <span className="text-gray-500">{formatDate(post.published_at)}</span>
                   )}
                 </div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-                  {post.title}
-                </h1>
+                        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4" itemProp="headline">
+                          {post.title}
+                        </h1>
                 {post.author && (
                   <p className="text-gray-600">By {post.author}</p>
                 )}

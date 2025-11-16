@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { generateSEOMetadata, generateArticleSchema, generateBreadcrumbSchema } from "@/lib/seo";
 
 // Force dynamic rendering - don't statically generate this route
 export const dynamic = 'force-dynamic';
@@ -51,10 +52,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       .single();
     
     if (page) {
-      return {
-        title: `${page.title} - Blueprint Branding Kreatives`,
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.vercel.app';
+      return generateSEOMetadata({
+        title: page.title,
         description: page.meta_description || page.title,
-      };
+        url: `${siteUrl}/${page.slug}`,
+        image: page.image_url,
+        keywords: page.meta_keywords || [],
+      });
     }
   } catch (error) {
     console.error("Error fetching page metadata:", error);
@@ -137,13 +142,40 @@ export default async function DynamicPage({ params }: PageProps) {
     content = [page.content || ''];
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.vercel.app';
+  const pageUrl = `${siteUrl}/${page.slug}`;
+  
+  // Generate structured data
+  const articleSchema = generateArticleSchema({
+    title: page.title,
+    description: page.meta_description || page.title,
+    image: page.image_url,
+    url: pageUrl,
+    publishedTime: page.created_at,
+    modifiedTime: page.updated_at || page.created_at,
+  });
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: siteUrl },
+    { name: page.title, url: pageUrl },
+  ]);
+
   return (
-    <main className="min-h-screen">
-      <Navbar />
-      <div className="pt-24">
-        <article className="py-20 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <main className="min-h-screen">
+        <Navbar />
+        <div className="pt-24">
+          <article className="py-20 bg-white" itemScope itemType="https://schema.org/Article">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-4xl mx-auto">
               {page.image_url && (
                 <div className="relative h-96 mb-8 rounded-lg overflow-hidden">
                   <Image
@@ -156,7 +188,7 @@ export default async function DynamicPage({ params }: PageProps) {
                 </div>
               )}
 
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6" itemProp="headline">
                 {page.title}
               </h1>
 
