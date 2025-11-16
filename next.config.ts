@@ -24,8 +24,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: true,
-  // Enable static optimization
-  output: 'standalone',
 };
 
 export default nextConfig;
