@@ -50,6 +50,16 @@ export async function PATCH(
       ...body,
       updated_at: new Date().toISOString(),
     };
+    
+    // If publishing and published_at is not set, set it now
+    if (updateData.published === true && !updateData.published_at) {
+      updateData.published_at = new Date().toISOString();
+    }
+    
+    // If unpublishing, clear published_at
+    if (updateData.published === false) {
+      updateData.published_at = null;
+    }
 
     console.log('Updating blog post:', id, 'with data:', JSON.stringify(updateData, null, 2));
 

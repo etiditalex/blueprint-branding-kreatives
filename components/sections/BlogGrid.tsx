@@ -30,7 +30,7 @@ export default function BlogGrid() {
     try {
       // Add timestamp to prevent caching
       const timestamp = new Date().getTime();
-      const response = await fetch(`/api/blog?limit=12&_t=${timestamp}`, {
+      const response = await fetch(`/api/blog?limit=100&_t=${timestamp}`, {
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache',

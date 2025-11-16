@@ -16,9 +16,13 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('blog_posts')
       .select('*')
-      .eq('published', true)
-      .order('published_at', { ascending: false })
-      .limit(limit);
+      .eq('published', true);
+    
+    // Order by published_at if available, otherwise by created_at
+    query = query.order('published_at', { ascending: false, nullsFirst: false })
+                 .order('created_at', { ascending: false });
+    
+    query = query.limit(limit);
 
     if (category) {
       query = query.eq('category', category);
