@@ -17,6 +17,8 @@ interface BlogPost {
 export default function BlogPostsPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -73,6 +75,37 @@ export default function BlogPostsPage() {
     }
   };
 
+  const handleSyncPosts = async () => {
+    if (!confirm("This will import all existing blog posts from the website. Continue?")) return;
+
+    setSyncing(true);
+    setSyncMessage("");
+    try {
+      const response = await fetch("/api/admin/blog/sync", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSyncMessage(
+          `Successfully synced ${data.synced} posts. ${data.skipped} posts were skipped (already exist).`
+        );
+        fetchPosts();
+        setTimeout(() => setSyncMessage(""), 5000);
+      } else {
+        const error = await response.json();
+        setSyncMessage(`Error: ${error.error || "Failed to sync posts"}`);
+        setTimeout(() => setSyncMessage(""), 5000);
+      }
+    } catch (error) {
+      console.error("Error syncing posts:", error);
+      setSyncMessage("Failed to sync posts");
+      setTimeout(() => setSyncMessage(""), 5000);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -88,13 +121,32 @@ export default function BlogPostsPage() {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Blog Posts</h1>
           <p className="text-gray-600">Manage your blog posts and articles</p>
         </div>
-        <Link
-          href="/admin/posts/new"
-          className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
-        >
-          + New Post
-        </Link>
+        <div className="flex gap-3">
+          <button
+            onClick={handleSyncPosts}
+            disabled={syncing}
+            className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium disabled:opacity-50"
+          >
+            {syncing ? "Syncing..." : "Sync All Posts"}
+          </button>
+          <Link
+            href="/admin/posts/new"
+            className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+          >
+            + New Post
+          </Link>
+        </div>
       </div>
+
+      {syncMessage && (
+        <div className={`mb-4 p-4 rounded-lg ${
+          syncMessage.includes("Error") || syncMessage.includes("Failed")
+            ? "bg-red-50 border border-red-200 text-red-700"
+            : "bg-green-50 border border-green-200 text-green-700"
+        }`}>
+          {syncMessage}
+        </div>
+      )}
 
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
@@ -118,7 +170,7 @@ export default function BlogPostsPage() {
             {posts.length === 0 ? (
               <tr>
                 <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                  No posts found. Create your first post!
+                  No posts found. Click "Sync All Posts" to import existing posts or create a new post.
                 </td>
               </tr>
             ) : (
