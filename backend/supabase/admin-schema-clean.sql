@@ -1,7 +1,3 @@
--- Additional tables for admin dashboard
--- Run this in Supabase SQL Editor after the main schema
-
--- Site settings table
 CREATE TABLE IF NOT EXISTS site_settings (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   key VARCHAR(255) UNIQUE NOT NULL,
@@ -13,7 +9,6 @@ CREATE TABLE IF NOT EXISTS site_settings (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Navigation menu items
 CREATE TABLE IF NOT EXISTS navigation_items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   label VARCHAR(255) NOT NULL,
@@ -27,7 +22,6 @@ CREATE TABLE IF NOT EXISTS navigation_items (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Header content
 CREATE TABLE IF NOT EXISTS header_content (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   logo_url TEXT,
@@ -38,7 +32,6 @@ CREATE TABLE IF NOT EXISTS header_content (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Footer content
 CREATE TABLE IF NOT EXISTS footer_content (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   company_name VARCHAR(255),
@@ -52,7 +45,6 @@ CREATE TABLE IF NOT EXISTS footer_content (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Media library
 CREATE TABLE IF NOT EXISTS media_items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   filename VARCHAR(255) NOT NULL,
@@ -69,7 +61,6 @@ CREATE TABLE IF NOT EXISTS media_items (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Pages table for custom pages
 CREATE TABLE IF NOT EXISTS pages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   slug VARCHAR(255) UNIQUE NOT NULL,
@@ -84,7 +75,6 @@ CREATE TABLE IF NOT EXISTS pages (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create indexes
 CREATE INDEX IF NOT EXISTS idx_site_settings_key ON site_settings(key);
 CREATE INDEX IF NOT EXISTS idx_site_settings_category ON site_settings(category);
 CREATE INDEX IF NOT EXISTS idx_navigation_items_parent ON navigation_items(parent_id);
@@ -94,7 +84,6 @@ CREATE INDEX IF NOT EXISTS idx_media_items_uploaded_by ON media_items(uploaded_b
 CREATE INDEX IF NOT EXISTS idx_pages_slug ON pages(slug);
 CREATE INDEX IF NOT EXISTS idx_pages_published ON pages(is_published);
 
--- Enable RLS
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE navigation_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE header_content ENABLE ROW LEVEL SECURITY;
@@ -102,7 +91,6 @@ ALTER TABLE footer_content ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pages ENABLE ROW LEVEL SECURITY;
 
--- RLS Policies for site_settings
 DROP POLICY IF EXISTS "Allow public reads on site settings" ON site_settings;
 DROP POLICY IF EXISTS "Allow admin all operations on site settings" ON site_settings;
 
@@ -116,7 +104,6 @@ CREATE POLICY "Allow admin all operations on site settings"
   TO authenticated
   USING (true);
 
--- RLS Policies for navigation_items
 DROP POLICY IF EXISTS "Allow public reads on navigation items" ON navigation_items;
 DROP POLICY IF EXISTS "Allow admin all operations on navigation items" ON navigation_items;
 
@@ -130,7 +117,6 @@ CREATE POLICY "Allow admin all operations on navigation items"
   TO authenticated
   USING (true);
 
--- RLS Policies for header_content
 DROP POLICY IF EXISTS "Allow public reads on header content" ON header_content;
 DROP POLICY IF EXISTS "Allow admin all operations on header content" ON header_content;
 
@@ -144,7 +130,6 @@ CREATE POLICY "Allow admin all operations on header content"
   TO authenticated
   USING (true);
 
--- RLS Policies for footer_content
 DROP POLICY IF EXISTS "Allow public reads on footer content" ON footer_content;
 DROP POLICY IF EXISTS "Allow admin all operations on footer content" ON footer_content;
 
@@ -158,7 +143,6 @@ CREATE POLICY "Allow admin all operations on footer content"
   TO authenticated
   USING (true);
 
--- RLS Policies for media_items
 DROP POLICY IF EXISTS "Allow public reads on media items" ON media_items;
 DROP POLICY IF EXISTS "Allow admin all operations on media items" ON media_items;
 
@@ -172,7 +156,6 @@ CREATE POLICY "Allow admin all operations on media items"
   TO authenticated
   USING (true);
 
--- RLS Policies for pages
 DROP POLICY IF EXISTS "Allow public reads on published pages" ON pages;
 DROP POLICY IF EXISTS "Allow admin all operations on pages" ON pages;
 
@@ -186,7 +169,6 @@ CREATE POLICY "Allow admin all operations on pages"
   TO authenticated
   USING (true);
 
--- Insert default header and footer records
 INSERT INTO header_content (id, logo_url, logo_alt_text, cta_text, cta_url)
 VALUES (
   '00000000-0000-0000-0000-000000000001',
@@ -202,3 +184,4 @@ VALUES (
   'Blueprint Branding Kreatives',
   '© 2025 Blueprint Branding Kreatives. All rights reserved.'
 ) ON CONFLICT (id) DO NOTHING;
+
