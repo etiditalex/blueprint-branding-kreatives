@@ -25,6 +25,7 @@ const STATIC_ROUTES = [
   'about',
   'seo',
   'websites',
+  'debug-pages', // Debug route
 ];
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -87,15 +88,33 @@ export default async function DynamicPage({ params }: PageProps) {
     
     if (error) {
       console.error('Supabase error fetching page:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       // Log more details for debugging
       if (error.code === 'PGRST116') {
         console.log('Page not found in database for slug:', slug);
+        // Try to find pages with similar slugs for debugging
+        const { data: allPages } = await supabase
+          .from('pages')
+          .select('slug, title, is_published')
+          .limit(10);
+        console.log('Available pages in database:', allPages);
       }
     }
     
     if (!error && data) {
-      console.log('Page found:', data.title, 'is_published:', data.is_published);
+      console.log('✅ Page found:', data.title, 'is_published:', data.is_published, 'slug:', data.slug);
       page = data;
+    } else if (!error && !data) {
+      console.log('⚠️ No data returned for slug:', slug);
+      // Try fetching without is_published filter to see if page exists but is unpublished
+      const { data: unpublishedPage } = await supabase
+        .from('pages')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+      if (unpublishedPage) {
+        console.log('⚠️ Page exists but is unpublished. is_published:', unpublishedPage.is_published);
+      }
     }
   } catch (error) {
     console.error("Error fetching page:", error);
