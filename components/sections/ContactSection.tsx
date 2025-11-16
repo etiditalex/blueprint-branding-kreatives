@@ -12,11 +12,13 @@ export default function ContactSection() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus("idle");
+    setErrorMessage("");
 
     try {
       const response = await fetch("/api/contact", {
@@ -35,12 +37,21 @@ export default function ContactSection() {
         setTimeout(() => setSubmitStatus("idle"), 5000);
       } else {
         setSubmitStatus("error");
-        setTimeout(() => setSubmitStatus("idle"), 5000);
+        setErrorMessage(data.error || data.details || "Something went wrong. Please try again.");
+        console.error("API Error:", data);
+        setTimeout(() => {
+          setSubmitStatus("idle");
+          setErrorMessage("");
+        }, 8000);
       }
     } catch (error) {
       console.error("Contact form error:", error);
       setSubmitStatus("error");
-      setTimeout(() => setSubmitStatus("idle"), 5000);
+      setErrorMessage("Network error. Please check your connection and try again.");
+      setTimeout(() => {
+        setSubmitStatus("idle");
+        setErrorMessage("");
+      }, 8000);
     } finally {
       setIsSubmitting(false);
     }
@@ -161,7 +172,7 @@ export default function ContactSection() {
 
             {submitStatus === "error" && (
               <div className="p-4 bg-red-500 rounded-lg text-center">
-                <p className="font-medium">Something went wrong. Please try again.</p>
+                <p className="font-medium">{errorMessage || "Something went wrong. Please try again."}</p>
               </div>
             )}
           </form>
