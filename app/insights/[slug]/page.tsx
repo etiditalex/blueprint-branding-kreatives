@@ -22,25 +22,25 @@ export async function generateMetadata({
     
     const { data: post } = await supabase
       .from('blog_posts')
-      .select('title, excerpt')
+      .select('title, excerpt, slug, image_url, published_at, updated_at, author, category')
       .eq('slug', slug)
       .eq('published', true)
       .single();
     
-            if (post) {
-              const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.vercel.app';
-              return generateSEOMetadata({
-                title: post.title,
-                description: post.excerpt || post.title,
-                url: `${siteUrl}/insights/${post.slug}`,
-                type: 'article',
-                image: post.image_url,
-                publishedTime: post.published_at,
-                modifiedTime: post.updated_at || post.published_at,
-                author: post.author,
-                keywords: post.category ? [post.category] : [],
-              });
-            }
+    if (post) {
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.vercel.app';
+      return generateSEOMetadata({
+        title: post.title,
+        description: post.excerpt || post.title,
+        url: `${siteUrl}/insights/${post.slug}`,
+        type: 'article',
+        image: post.image_url || undefined,
+        publishedTime: post.published_at || undefined,
+        modifiedTime: post.updated_at || post.published_at || undefined,
+        author: post.author || undefined,
+        keywords: post.category ? [post.category] : [],
+      });
+    }
   } catch (error) {
     console.error("Error fetching post metadata:", error);
   }
