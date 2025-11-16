@@ -86,10 +86,12 @@ export default function BlogPostEditor({ params }: { params: Promise<{ id: strin
 
       if (response.ok) {
         const data = await response.json();
+        alert("Post saved successfully! Changes will appear on the frontend shortly.");
         router.push("/admin/posts");
       } else {
         const error = await response.json();
-        alert(error.error || "Failed to save post");
+        console.error("Save error:", error);
+        alert(error.error || error.details || "Failed to save post. Please check the console for details.");
       }
     } catch (error) {
       console.error("Error saving post:", error);

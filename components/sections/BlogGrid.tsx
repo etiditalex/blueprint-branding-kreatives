@@ -21,11 +21,19 @@ export default function BlogGrid() {
 
   useEffect(() => {
     fetchPosts();
+    // Refresh every 30 seconds to catch updates
+    const interval = setInterval(fetchPosts, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch("/api/blog?limit=12");
+      const response = await fetch("/api/blog?limit=12", {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setPosts(data.data || []);
