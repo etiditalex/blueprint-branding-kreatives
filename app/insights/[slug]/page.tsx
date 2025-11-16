@@ -4,42 +4,93 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { blogPosts } from "@/lib/siteConfig";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }));
 }
 
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
-
-  if (!post) {
-    return {
-      title: "Post Not Found",
-    };
+  
+  try {
+    // Use server-side Supabase client directly
+    const { createServerClient } = await import('@/backend/lib/supabase');
+    const supabase = createServerClient();
+    
+    const { data: post } = await supabase
+      .from('blog_posts')
+      .select('title, excerpt')
+      .eq('slug', slug)
+      .eq('published', true)
+      .single();
+    
+    if (post) {
+      return {
+        title: `${post.title} - Blueprint Branding Kreatives`,
+        description: post.excerpt || post.title,
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching post metadata:", error);
   }
 
   return {
-    title: `${post.title} - Blueprint Branding Kreatives`,
-    description: post.excerpt,
+    title: "Post Not Found - Blueprint Branding Kreatives",
   };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  
+  let post = null;
+  try {
+    // Use server-side Supabase client directly
+    const { createServerClient } = await import('@/backend/lib/supabase');
+    const supabase = createServerClient();
+    
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('slug', slug)
+      .eq('published', true)
+      .single();
+    
+    if (!error && data) {
+      post = data;
+    }
+  } catch (error) {
+    console.error("Error fetching blog post:", error);
+  }
 
-  if (!post) {
+  if (!post || !post.published) {
     notFound();
+  }
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } catch {
+      return "";
+    }
+  };
+
+  // Parse content - it might be a string or array
+  let content: string[] = [];
+  if (typeof post.content === 'string') {
+    // Split by double newlines to create paragraphs
+    content = post.content.split(/\n\n+/).filter((p: string) => p.trim());
+  } else if (Array.isArray(post.content)) {
+    content = post.content;
+  } else {
+    content = [post.content || ''];
   }
 
   return (
@@ -69,10 +120,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="max-w-4xl mx-auto">
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="px-4 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold">
-                    {post.category}
-                  </span>
-                  <span className="text-gray-500">{post.date}</span>
+                  {post.category && (
+                    <span className="px-4 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold">
+                      {post.category}
+                    </span>
+                  )}
+                  {post.published_at && (
+                    <span className="text-gray-500">{formatDate(post.published_at)}</span>
+                  )}
                 </div>
                 <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
                   {post.title}
@@ -82,10 +137,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 )}
               </div>
 
-              {post.image && (
+              {post.image_url && (
                 <div className="relative h-96 mb-8 rounded-lg overflow-hidden">
                   <Image
-                    src={post.image}
+                    src={post.image_url}
                     alt={post.title}
                     fill
                     className="object-cover"
@@ -94,7 +149,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               )}
 
               <div className="prose prose-lg max-w-none">
-                {post.content.map((paragraph, index) => (
+                {content.map((paragraph, index) => (
                   <p key={index} className="text-gray-700 leading-relaxed mb-6">
                     {paragraph}
                   </p>
@@ -128,4 +183,3 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     </main>
   );
 }
-

@@ -1,22 +1,95 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { blogPosts } from "@/lib/siteConfig";
+
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  category?: string;
+  published_at?: string;
+  image_url?: string;
+  author?: string;
+}
 
 export default function BlogGrid() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch("/api/blog?limit=12");
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data.data || []);
+      }
+    } catch (error) {
+      console.error("Error fetching blog posts:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } catch {
+      return "";
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (posts.length === 0) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No blog posts available yet.</p>
+            <p className="text-gray-400 text-sm mt-2">Check back soon for new insights!</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
+          {posts.map((post) => (
             <Link
               key={post.id}
               href={`/insights/${post.slug}`}
               className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
             >
-              {post.image && (
+              {post.image_url && (
                 <div className="relative h-48 overflow-hidden">
                   <Image
-                    src={post.image}
+                    src={post.image_url}
                     alt={post.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-300"
@@ -25,18 +98,28 @@ export default function BlogGrid() {
               )}
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-sm text-primary-600 font-semibold">
-                    {post.category}
-                  </span>
-                  <span className="text-sm text-gray-500">•</span>
-                  <span className="text-sm text-gray-500">{post.date}</span>
+                  {post.category && (
+                    <>
+                      <span className="text-sm text-primary-600 font-semibold">
+                        {post.category}
+                      </span>
+                      <span className="text-sm text-gray-500">•</span>
+                    </>
+                  )}
+                  {post.published_at && (
+                    <span className="text-sm text-gray-500">
+                      {formatDate(post.published_at)}
+                    </span>
+                  )}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-gray-600 mb-4 text-sm line-clamp-3">
-                  {post.excerpt}
-                </p>
+                {post.excerpt && (
+                  <p className="text-gray-600 mb-4 text-sm line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                )}
                 <div className="flex items-center text-primary-600 font-semibold text-sm">
                   Read More
                   <svg
@@ -59,5 +142,3 @@ export default function BlogGrid() {
     </section>
   );
 }
-
-
