@@ -1,30 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface MediaItem {
   id: string;
   filename: string;
   url: string;
   alt_text?: string;
-  mime_type?: string;
   category: string;
-  tags?: string[];
   created_at: string;
 }
 
 export default function MediaPage() {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    filename: "",
-    url: "",
-    alt_text: "",
-    category: "image",
-    tags: [] as string[],
-  });
-  const [tagInput, setTagInput] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadMessage, setUploadMessage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [dragActive, setDragActive] = useState(false);
 
   useEffect(() => {
     fetchItems();
@@ -44,33 +38,95 @@ export default function MediaPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleFileUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+
+    setUploading(true);
+    setUploadProgress(0);
+    setUploadMessage("");
+
+    // Validate files before uploading
+    const validFiles: File[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.size > 10 * 1024 * 1024) {
+        alert(`${file.name} is too large. Maximum size is 10MB.`);
+        continue;
+      }
+      if (!file.type.startsWith('image/')) {
+        alert(`${file.name} is not an image file. Only images are supported.`);
+        continue;
+      }
+      validFiles.push(file);
+    }
+
+    if (validFiles.length === 0) {
+      setUploading(false);
+      return;
+    }
+
     try {
-      const response = await fetch("/api/admin/media", {
+      setUploadMessage(`Uploading ${validFiles.length} file(s)...`);
+      setUploadProgress(30);
+
+      const formData = new FormData();
+      validFiles.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      setUploadProgress(50);
+
+      const response = await fetch("/api/admin/media/upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: formData,
       });
 
       if (response.ok) {
+        const data = await response.json();
+        setUploadProgress(100);
+        setUploadMessage(`Successfully uploaded ${data.count || validFiles.length} file(s)!`);
         fetchItems();
-        setShowForm(false);
-        setFormData({
-          filename: "",
-          url: "",
-          alt_text: "",
-          category: "image",
-          tags: [],
-        });
+        setTimeout(() => {
+          setUploadProgress(0);
+          setUploadMessage("");
+          setUploading(false);
+        }, 2000);
+      } else {
+        const error = await response.json();
+        setUploadMessage(error.error || "Failed to upload files");
+        setUploading(false);
+        setTimeout(() => setUploadMessage(""), 5000);
       }
     } catch (error) {
-      console.error("Error saving media:", error);
+      console.error("Error uploading files:", error);
+      setUploadMessage("Failed to upload files. Please try again.");
+      setUploading(false);
+      setTimeout(() => setUploadMessage(""), 5000);
+    }
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFileUpload(e.dataTransfer.files);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this media item?")) return;
+    if (!confirm("Are you sure you want to delete this image?")) return;
 
     try {
       const response = await fetch(`/api/admin/media/${id}`, {
@@ -82,17 +138,13 @@ export default function MediaPage() {
       }
     } catch (error) {
       console.error("Error deleting media:", error);
+      alert("Failed to delete image");
     }
   };
 
-  const addTag = () => {
-    if (tagInput.trim()) {
-      setFormData({
-        ...formData,
-        tags: [...formData.tags, tagInput.trim()],
-      });
-      setTagInput("");
-    }
+  const copyUrl = (url: string) => {
+    navigator.clipboard.writeText(url);
+    alert("URL copied to clipboard!");
   };
 
   if (loading) {
@@ -105,158 +157,87 @@ export default function MediaPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Media Library</h1>
-          <p className="text-gray-600">Manage your media files</p>
-        </div>
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
-        >
-          + Add Media
-        </button>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Media Library</h1>
+        <p className="text-gray-600">Upload and manage your images</p>
       </div>
 
-      {showForm && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Add Media Item</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Filename *
-                </label>
-                <input
-                  type="text"
-                  value={formData.filename}
-                  onChange={(e) =>
-                    setFormData({ ...formData, filename: e.target.value })
-                  }
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category
-                </label>
-                <select
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                >
-                  <option value="image">Image</option>
-                  <option value="document">Document</option>
-                  <option value="video">Video</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                URL *
-              </label>
-              <input
-                type="url"
-                value={formData.url}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Alt Text
-              </label>
-              <input
-                type="text"
-                value={formData.alt_text}
-                onChange={(e) =>
-                  setFormData({ ...formData, alt_text: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tags
-              </label>
-              <div className="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      addTag();
-                    }
-                  }}
-                  placeholder="Add tag and press Enter"
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                />
-                <button
-                  type="button"
-                  onClick={addTag}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-                >
-                  Add
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {formData.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setFormData({
-                          ...formData,
-                          tags: formData.tags.filter((_, i) => i !== index),
-                        })
-                      }
-                      className="text-primary-600 hover:text-primary-800"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <button
-                type="submit"
-                className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
-              >
-                Add Media
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+      {/* Upload Area */}
+      <div
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
+        className={`mb-8 border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+          dragActive
+            ? "border-primary-500 bg-primary-50"
+            : "border-gray-300 bg-gray-50 hover:border-primary-400"
+        }`}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={(e) => handleFileUpload(e.target.files)}
+          className="hidden"
+        />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {items.length === 0 ? (
-          <div className="col-span-full bg-white rounded-lg shadow-md p-8 text-center text-gray-500">
-            <p>No media items found. Add your first item!</p>
+        {uploading ? (
+          <div>
+            <div className="mb-4">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  className="bg-primary-600 h-2.5 rounded-full transition-all duration-300"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <p className="mt-2 text-sm text-gray-600">
+                {uploadMessage || `Uploading... ${uploadProgress}%`}
+              </p>
+            </div>
           </div>
         ) : (
-          items.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div>
+            <svg
+              className="mx-auto h-12 w-12 text-gray-400 mb-4"
+              stroke="currentColor"
+              fill="none"
+              viewBox="0 0 48 48"
+            >
+              <path
+                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <p className="text-lg font-medium text-gray-700 mb-2">
+              Drag and drop images here, or{" "}
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="text-primary-600 hover:text-primary-700 font-semibold"
+              >
+                browse
+              </button>
+            </p>
+            <p className="text-sm text-gray-500">Supports JPG, PNG, GIF, WebP (Max 10MB per file)</p>
+          </div>
+        )}
+      </div>
+
+      {/* Media Grid */}
+      {items.length === 0 ? (
+        <div className="bg-white rounded-lg shadow-md p-12 text-center text-gray-500">
+          <p className="text-lg mb-2">No images yet</p>
+          <p className="text-sm">Upload your first image using the area above</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {items.map((item) => (
+            <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden group">
               <div className="relative aspect-square bg-gray-200">
-                {item.category === "image" && item.url ? (
+                {item.url ? (
                   <img
                     src={item.url}
                     alt={item.alt_text || item.filename}
@@ -265,27 +246,34 @@ export default function MediaPage() {
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
                 )}
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+                  <button
+                    onClick={() => copyUrl(item.url)}
+                    className="px-3 py-1 bg-white text-gray-800 rounded text-xs font-medium hover:bg-gray-100"
+                  >
+                    Copy URL
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="px-3 py-1 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-              <div className="p-3">
-                <p className="text-xs font-medium text-gray-800 truncate mb-1">
+              <div className="p-2">
+                <p className="text-xs font-medium text-gray-800 truncate" title={item.filename}>
                   {item.filename}
                 </p>
-                <p className="text-xs text-gray-500 mb-2">{item.category}</p>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="w-full text-xs px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
-                >
-                  Delete
-                </button>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
