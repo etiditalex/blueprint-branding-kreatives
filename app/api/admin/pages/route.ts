@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, slug, content, meta_description, meta_keywords, is_published, template, display_order } = body;
+    const { title, slug, content, meta_description, meta_keywords, image_url, is_published, template, display_order } = body;
 
     if (!title || !slug || !content) {
       return NextResponse.json(
@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
         content,
         meta_description: meta_description || null,
         meta_keywords: meta_keywords || [],
+        image_url: image_url || null,
         is_published: is_published || false,
         template: template || 'default',
         display_order: display_order || 0,

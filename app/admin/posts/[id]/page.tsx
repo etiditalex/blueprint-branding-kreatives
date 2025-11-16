@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ImagePicker from "@/components/admin/ImagePicker";
 
 export default function BlogPostEditor({ params }: { params: Promise<{ id: string }> }) {
   const [postId, setPostId] = useState<string | null>(null);
@@ -204,14 +205,10 @@ export default function BlogPostEditor({ params }: { params: Promise<{ id: strin
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Featured Image URL
-          </label>
-          <input
-            type="url"
+          <ImagePicker
+            label="Featured Image"
             value={formData.image_url}
-            onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            onChange={(url) => setFormData({ ...formData, image_url: url })}
           />
         </div>
 

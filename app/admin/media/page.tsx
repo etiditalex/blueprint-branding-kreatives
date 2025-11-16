@@ -168,11 +168,12 @@ export default function MediaPage() {
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        className={`mb-8 border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+        onClick={() => !uploading && fileInputRef.current?.click()}
+        className={`mb-8 border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${
           dragActive
             ? "border-primary-500 bg-primary-50"
             : "border-gray-300 bg-gray-50 hover:border-primary-400"
-        }`}
+        } ${uploading ? "cursor-wait" : ""}`}
       >
         <input
           ref={fileInputRef}
@@ -213,13 +214,7 @@ export default function MediaPage() {
               />
             </svg>
             <p className="text-lg font-medium text-gray-700 mb-2">
-              Drag and drop images here, or{" "}
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="text-primary-600 hover:text-primary-700 font-semibold"
-              >
-                browse
-              </button>
+              Click here or drag and drop images to upload
             </p>
             <p className="text-sm text-gray-500">Supports JPG, PNG, GIF, WebP (Max 10MB per file)</p>
           </div>

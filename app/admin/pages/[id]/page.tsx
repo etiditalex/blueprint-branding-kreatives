@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ImagePicker from "@/components/admin/ImagePicker";
 
 export default function PageEditor({ params }: { params: Promise<{ id: string }> }) {
   const [pageId, setPageId] = useState<string | null>(null);
@@ -12,6 +13,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
     content: "",
     meta_description: "",
     meta_keywords: [] as string[],
+    image_url: "",
     is_published: false,
     template: "default",
     display_order: 0,
@@ -44,6 +46,7 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
           content: data.data.content || "",
           meta_description: data.data.meta_description || "",
           meta_keywords: data.data.meta_keywords || [],
+          image_url: data.data.image_url || "",
           is_published: data.data.is_published || false,
           template: data.data.template || "default",
           display_order: data.data.display_order || 0,
@@ -166,6 +169,14 @@ export default function PageEditor({ params }: { params: Promise<{ id: string }>
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
+        </div>
+
+        <div>
+          <ImagePicker
+            label="Featured Image"
+            value={formData.image_url}
+            onChange={(url) => setFormData({ ...formData, image_url: url })}
+          />
         </div>
 
         <div>
