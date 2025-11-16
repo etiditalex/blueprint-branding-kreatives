@@ -14,8 +14,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check environment variables first
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    
+    if (!supabaseUrl || !serviceRoleKey) {
+      console.error('Missing env vars:', {
+        hasUrl: !!supabaseUrl,
+        hasKey: !!serviceRoleKey
+      });
+      return NextResponse.json(
+        { 
+          error: 'Server configuration error', 
+          details: 'Missing Supabase environment variables. Please ensure .env.local is configured and the server has been restarted.' 
+        },
+        { status: 500 }
+      );
+    }
+
     // Use service role client to bypass RLS
-    const supabase = createServerClient();
+    let supabase;
+    try {
+      supabase = createServerClient();
+    } catch (clientError: any) {
+      console.error('Failed to create Supabase client:', clientError);
+      return NextResponse.json(
+        { 
+          error: 'Server configuration error', 
+          details: clientError.message || 'Failed to initialize database connection' 
+        },
+        { status: 500 }
+      );
+    }
 
     // Insert into Supabase
     const { data, error } = await supabase
@@ -47,8 +77,13 @@ export async function POST(request: NextRequest) {
     );
   } catch (error: any) {
     console.error('Contact form error:', error);
+    console.error('Error stack:', error.stack);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { 
+        error: 'Internal server error', 
+        details: error.message || 'An unexpected error occurred',
+        type: error.name || 'UnknownError'
+      },
       { status: 500 }
     );
   }

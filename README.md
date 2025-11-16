@@ -8,7 +8,7 @@ A modern, responsive portfolio and marketing website for Blueprint Branding Krea
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling
 - **Vercel** - Deployment (ready)
-- **Supabase** - Backend integration (planned)
+- **Supabase** - Backend integration (configured)
 
 ## Features
 
@@ -16,7 +16,8 @@ A modern, responsive portfolio and marketing website for Blueprint Branding Krea
 - ✅ Typing animation hero section
 - ✅ Smooth scrolling navigation
 - ✅ Service showcase sections
-- ✅ Contact form (ready for Supabase integration)
+- ✅ Contact form with Supabase integration
+- ✅ Booking form with Supabase integration
 - ✅ Mobile-friendly navigation
 - ✅ Brand colors extracted from logo
 
@@ -67,9 +68,13 @@ The color palette has been extracted from the Blueprint Branding Kreatives logo:
 - **Primary**: `#3c3c87` (Deep blue/purple)
 - **Accent**: `#f04b1e` (Orange/red)
 
+## Supabase Setup
+
+1. See `backend/SETUP.md` for local development setup
+2. See `backend/DEPLOYMENT.md` for cloud deployment instructions
+
 ## Future Enhancements
 
-- [ ] Supabase integration for contact form
 - [ ] Portfolio case studies section
 - [ ] Blog/CMS integration
 - [ ] Analytics integration
@@ -81,7 +86,18 @@ This project is ready to deploy on Vercel:
 
 1. Push your code to GitHub
 2. Import the project in Vercel
-3. Deploy!
+3. **Set environment variables in Vercel Dashboard** (see `backend/DEPLOYMENT.md` for details)
+4. Deploy!
+
+### Environment Variables Required
+
+Before deploying, make sure to set these in your Vercel project settings:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+See `backend/DEPLOYMENT.md` for detailed instructions.
 
 ## License
 
