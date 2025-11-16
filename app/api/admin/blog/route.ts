@@ -53,8 +53,11 @@ export async function POST(request: NextRequest) {
       published: published || false,
     };
 
+    // Always set published_at when publishing
     if (published) {
       postData.published_at = new Date().toISOString();
+    } else {
+      postData.published_at = null;
     }
 
     const { data, error } = await supabase
