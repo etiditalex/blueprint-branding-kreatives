@@ -26,6 +26,7 @@ const STATIC_ROUTES = [
   'seo',
   'websites',
   'debug-pages', // Debug route
+  'test-page-connection', // Test route
 ];
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
