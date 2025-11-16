@@ -155,24 +155,33 @@ export default function PagesPage() {
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {pages.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                  No pages found. Click "Sync All Pages" to import existing pages or create a new page.
-                </td>
-              </tr>
-            ) : (
-              pages.map((page) => (
-                <tr key={page.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{page.title}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">
-                      {page.slug ? `/${page.slug}` : '/'}
-                    </div>
-                  </td>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {pages.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                          No pages found. Click "Sync All Pages" to import existing pages or create a new page.
+                        </td>
+                      </tr>
+                    ) : (
+                      pages.map((page) => (
+                        <tr key={page.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">{page.title}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-500">
+                              {page.slug ? (
+                                <a 
+                                  href={`/${page.slug}`} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-primary-600 hover:text-primary-800 underline"
+                                >
+                                  /{page.slug}
+                                </a>
+                              ) : '/'}
+                            </div>
+                          </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
                       onClick={() => handleTogglePublish(page)}

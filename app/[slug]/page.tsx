@@ -4,6 +4,10 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+// Force dynamic rendering - don't statically generate this route
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -72,6 +76,8 @@ export default async function DynamicPage({ params }: PageProps) {
     const { createServerClient } = await import('@/backend/lib/supabase');
     const supabase = createServerClient();
     
+    console.log('Fetching page with slug:', slug); // Debug log
+    
     const { data, error } = await supabase
       .from('pages')
       .select('*')
@@ -79,7 +85,16 @@ export default async function DynamicPage({ params }: PageProps) {
       .eq('is_published', true)
       .single();
     
+    if (error) {
+      console.error('Supabase error fetching page:', error);
+      // Log more details for debugging
+      if (error.code === 'PGRST116') {
+        console.log('Page not found in database for slug:', slug);
+      }
+    }
+    
     if (!error && data) {
+      console.log('Page found:', data.title, 'is_published:', data.is_published);
       page = data;
     }
   } catch (error) {
@@ -87,6 +102,7 @@ export default async function DynamicPage({ params }: PageProps) {
   }
 
   if (!page || !page.is_published) {
+    console.log('Page not found or not published. Slug:', slug, 'Page:', page);
     notFound();
   }
 
