@@ -24,7 +24,7 @@ export default function AdminLayout({
           setUser(session.user);
         } else {
           setUser(null);
-          router.push("/admin/login");
+          router.push("/admin-login");
         }
       }
     );
@@ -38,11 +38,11 @@ export default function AdminLayout({
       if (session) {
         setUser(session.user);
       } else {
-        router.push("/admin/login");
+        router.push("/admin-login");
       }
     } catch (error) {
       console.error("Error checking user:", error);
-      router.push("/admin/login");
+      router.push("/admin-login");
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export default function AdminLayout({
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/admin/login");
+    router.push("/admin-login");
   };
 
   if (loading) {
