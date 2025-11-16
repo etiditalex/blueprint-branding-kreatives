@@ -38,7 +38,12 @@ export default function BlogGrid() {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log('Blog posts fetched:', data.data);
+        console.log('First post image_url:', data.data?.[0]?.image_url);
         setPosts(data.data || []);
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to fetch posts:', errorData);
       }
     } catch (error) {
       console.error("Error fetching blog posts:", error);
@@ -96,14 +101,23 @@ export default function BlogGrid() {
               href={`/insights/${post.slug}`}
               className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
             >
-              {post.image_url && (
-                <div className="relative h-48 overflow-hidden">
+              {post.image_url ? (
+                <div className="relative h-48 overflow-hidden bg-gray-100">
                   <Image
                     src={post.image_url}
                     alt={post.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    unoptimized
+                    onError={(e) => {
+                      console.error('Image load error for:', post.image_url);
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
                   />
+                </div>
+              ) : (
+                <div className="relative h-48 bg-gray-200 flex items-center justify-center">
+                  <p className="text-gray-400 text-sm">No image</p>
                 </div>
               )}
               <div className="p-6">

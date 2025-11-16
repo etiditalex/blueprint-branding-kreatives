@@ -27,6 +27,10 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
     
     console.log('Blog posts fetched:', data?.length || 0, 'posts');
+    if (data && data.length > 0) {
+      console.log('First post image_url:', data[0].image_url);
+      console.log('All posts image_urls:', data.map(p => ({ id: p.id, title: p.title, image_url: p.image_url })));
+    }
 
     if (error) {
       console.error('Supabase error:', error);
