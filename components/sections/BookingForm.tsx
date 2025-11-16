@@ -4,7 +4,8 @@ import { useState } from "react";
 
 export default function BookingForm() {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     company: "",
@@ -21,26 +22,42 @@ export default function BookingForm() {
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
-    // TODO: Connect to Supabase later
-    console.log("Booking submission:", formData);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        service: "",
-        date: "",
-        time: "",
-        message: "",
+    try {
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-      
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitStatus("success");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          company: "",
+          service: "",
+          date: "",
+          time: "",
+          message: "",
+        });
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      } else {
+        setSubmitStatus("error");
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      }
+    } catch (error) {
+      console.error("Booking form error:", error);
+      setSubmitStatus("error");
       setTimeout(() => setSubmitStatus("idle"), 5000);
-    }, 1000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -60,18 +77,34 @@ export default function BookingForm() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block mb-2 font-semibold text-gray-900">
-                    Full Name *
+                  <label htmlFor="firstName" className="block mb-2 font-semibold text-gray-900">
+                    First Name *
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    placeholder="John Doe"
+                    placeholder="John"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="lastName" className="block mb-2 font-semibold text-gray-900">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    placeholder="Doe"
                   />
                 </div>
 
@@ -135,11 +168,11 @@ export default function BookingForm() {
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
                     <option value="">Select a service</option>
-                    <option value="graphic-design">Graphic Design</option>
-                    <option value="web-design-seo">Web Design & SEO</option>
-                    <option value="branding-solutions">Branding Solutions</option>
-                    <option value="digital-marketing">Digital Marketing</option>
-                    <option value="consultation">General Consultation</option>
+                    <option value="Graphic Design">Graphic Design</option>
+                    <option value="Web Design & SEO Services">Web Design & SEO Services</option>
+                    <option value="Branding Solutions">Branding Solutions</option>
+                    <option value="Digital Marketing">Digital Marketing</option>
+                    <option value="General Consultation">General Consultation</option>
                   </select>
                 </div>
 
@@ -163,25 +196,15 @@ export default function BookingForm() {
                   <label htmlFor="time" className="block mb-2 font-semibold text-gray-900">
                     Preferred Time *
                   </label>
-                  <select
+                  <input
+                    type="time"
                     id="time"
                     name="time"
                     value={formData.time}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  >
-                    <option value="">Select a time</option>
-                    <option value="09:00">9:00 AM</option>
-                    <option value="10:00">10:00 AM</option>
-                    <option value="11:00">11:00 AM</option>
-                    <option value="12:00">12:00 PM</option>
-                    <option value="13:00">1:00 PM</option>
-                    <option value="14:00">2:00 PM</option>
-                    <option value="15:00">3:00 PM</option>
-                    <option value="16:00">4:00 PM</option>
-                    <option value="17:00">5:00 PM</option>
-                  </select>
+                  />
                 </div>
               </div>
 
@@ -228,4 +251,3 @@ export default function BookingForm() {
     </section>
   );
 }
-

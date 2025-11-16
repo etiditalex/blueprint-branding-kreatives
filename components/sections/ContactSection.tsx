@@ -6,6 +6,8 @@ export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
+    company: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,19 +18,32 @@ export default function ContactSection() {
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
-    // TODO: Connect to Supabase later
-    // For now, just log to console
-    console.log("Form submission:", formData);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", message: "" });
-      
-      // Reset success message after 5 seconds
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", phone: "", company: "", message: "" });
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      } else {
+        setSubmitStatus("error");
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      }
+    } catch (error) {
+      console.error("Contact form error:", error);
+      setSubmitStatus("error");
       setTimeout(() => setSubmitStatus("idle"), 5000);
-    }, 1000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -54,7 +69,7 @@ export default function ContactSection() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block mb-2 font-medium">
-                Name
+                Name *
               </label>
               <input
                 type="text"
@@ -70,7 +85,7 @@ export default function ContactSection() {
 
             <div>
               <label htmlFor="email" className="block mb-2 font-medium">
-                Email
+                Email *
               </label>
               <input
                 type="email"
@@ -85,8 +100,38 @@ export default function ContactSection() {
             </div>
 
             <div>
+              <label htmlFor="phone" className="block mb-2 font-medium">
+                Phone
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                placeholder="+1 (555) 123-4567"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="company" className="block mb-2 font-medium">
+                Company
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                placeholder="Your Company"
+              />
+            </div>
+
+            <div>
               <label htmlFor="message" className="block mb-2 font-medium">
-                Message
+                Message *
               </label>
               <textarea
                 id="message"
@@ -125,4 +170,3 @@ export default function ContactSection() {
     </section>
   );
 }
-

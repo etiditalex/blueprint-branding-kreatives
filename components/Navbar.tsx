@@ -30,7 +30,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20 sm:h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+            <div className="relative w-[70px] h-[70px]">
               <Image
                 src={logoUrl}
                 alt="Blueprint Branding Kreatives Logo"
