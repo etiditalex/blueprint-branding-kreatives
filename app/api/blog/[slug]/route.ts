@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '../../../../backend/lib/supabase';
+import { createServerClient } from '../../../../backend/lib/supabase';
 
 export async function GET(
   request: NextRequest,
@@ -8,12 +8,16 @@ export async function GET(
   try {
     const { slug } = await params;
 
+    const supabase = createServerClient();
+
     const { data, error } = await supabase
       .from('blog_posts')
       .select('*')
       .eq('slug', slug)
       .eq('published', true)
       .single();
+    
+    console.log('Blog post fetched:', slug, 'image_url:', data?.image_url);
 
     if (error) {
       if (error.code === 'PGRST116') {

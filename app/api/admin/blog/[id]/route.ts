@@ -51,6 +51,8 @@ export async function PATCH(
       updated_at: new Date().toISOString(),
     };
 
+    console.log('Updating blog post:', id, 'with data:', JSON.stringify(updateData, null, 2));
+
     const { data, error } = await supabase
       .from('blog_posts')
       .update(updateData)
@@ -59,12 +61,14 @@ export async function PATCH(
       .single();
 
     if (error) {
+      console.error('Update error:', error);
       return NextResponse.json(
         { error: 'Failed to update blog post', details: error.message },
         { status: 500 }
       );
     }
 
+    console.log('Blog post updated successfully:', data?.id, 'image_url:', data?.image_url);
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(

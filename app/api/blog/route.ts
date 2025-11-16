@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '../../../backend/lib/supabase';
+import { createServerClient } from '../../../backend/lib/supabase';
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '10');
     const category = searchParams.get('category');
+
+    const supabase = createServerClient();
 
     let query = supabase
       .from('blog_posts')
@@ -19,6 +21,8 @@ export async function GET(request: NextRequest) {
     }
 
     const { data, error } = await query;
+    
+    console.log('Blog posts fetched:', data?.length || 0, 'posts');
 
     if (error) {
       console.error('Supabase error:', error);
