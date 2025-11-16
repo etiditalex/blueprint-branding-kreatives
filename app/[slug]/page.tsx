@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     
     const { data: page } = await supabase
       .from('pages')
-      .select('title, meta_description')
+      .select('title, meta_description, slug, image_url, meta_keywords')
       .eq('slug', slug)
       .eq('is_published', true)
       .single();
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title: page.title,
         description: page.meta_description || page.title,
         url: `${siteUrl}/${page.slug}`,
-        image: page.image_url,
+        image: page.image_url || undefined,
         keywords: page.meta_keywords || [],
       });
     }
