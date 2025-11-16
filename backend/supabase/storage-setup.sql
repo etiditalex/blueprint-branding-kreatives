@@ -6,6 +6,12 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('media', 'media', true)
 ON CONFLICT (id) DO NOTHING;
 
+-- Drop existing policies if they exist, then create new ones
+DROP POLICY IF EXISTS "Public Access" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can update" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can delete" ON storage.objects;
+
 -- Set up storage policies for the media bucket
 -- Allow public read access
 CREATE POLICY "Public Access"
