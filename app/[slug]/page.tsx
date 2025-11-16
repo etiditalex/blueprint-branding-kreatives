@@ -214,6 +214,7 @@ export default async function DynamicPage({ params }: PageProps) {
       </div>
       <Footer />
     </main>
+    </>
   );
 }
 
