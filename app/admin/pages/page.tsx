@@ -16,6 +16,8 @@ interface Page {
 export default function PagesPage() {
   const [pages, setPages] = useState<Page[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState("");
 
   useEffect(() => {
     fetchPages();
@@ -68,6 +70,37 @@ export default function PagesPage() {
     }
   };
 
+  const handleSyncPages = async () => {
+    if (!confirm("This will import all existing website pages into the database. Continue?")) return;
+
+    setSyncing(true);
+    setSyncMessage("");
+    try {
+      const response = await fetch("/api/admin/pages/sync", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSyncMessage(
+          `Successfully synced ${data.synced} pages. ${data.skipped} pages were skipped (already exist).`
+        );
+        fetchPages();
+        setTimeout(() => setSyncMessage(""), 5000);
+      } else {
+        const error = await response.json();
+        setSyncMessage(`Error: ${error.error || "Failed to sync pages"}`);
+        setTimeout(() => setSyncMessage(""), 5000);
+      }
+    } catch (error) {
+      console.error("Error syncing pages:", error);
+      setSyncMessage("Failed to sync pages");
+      setTimeout(() => setSyncMessage(""), 5000);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -81,15 +114,34 @@ export default function PagesPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Pages</h1>
-          <p className="text-gray-600">Manage custom pages</p>
+          <p className="text-gray-600">Manage all website pages</p>
         </div>
-        <Link
-          href="/admin/pages/new"
-          className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
-        >
-          + New Page
-        </Link>
+        <div className="flex gap-3">
+          <button
+            onClick={handleSyncPages}
+            disabled={syncing}
+            className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium disabled:opacity-50"
+          >
+            {syncing ? "Syncing..." : "Sync All Pages"}
+          </button>
+          <Link
+            href="/admin/pages/new"
+            className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+          >
+            + New Page
+          </Link>
+        </div>
       </div>
+
+      {syncMessage && (
+        <div className={`mb-4 p-4 rounded-lg ${
+          syncMessage.includes("Error") || syncMessage.includes("Failed")
+            ? "bg-red-50 border border-red-200 text-red-700"
+            : "bg-green-50 border border-green-200 text-green-700"
+        }`}>
+          {syncMessage}
+        </div>
+      )}
 
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
@@ -107,7 +159,7 @@ export default function PagesPage() {
             {pages.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                  No pages found. Create your first page!
+                  No pages found. Click "Sync All Pages" to import existing pages or create a new page.
                 </td>
               </tr>
             ) : (
@@ -117,7 +169,9 @@ export default function PagesPage() {
                     <div className="text-sm font-medium text-gray-900">{page.title}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">/{page.slug}</div>
+                    <div className="text-sm text-gray-500">
+                      {page.slug ? `/${page.slug}` : '/'}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
