@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { createServerClient } from "../../backend/lib/supabase";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -15,20 +14,34 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchStats();
+    // Refresh stats every 30 seconds
+    const interval = setInterval(fetchStats, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchStats = async () => {
     try {
-      // Note: In a real implementation, these would be API calls
-      // For now, we'll use placeholder data
-      setStats({
-        posts: 0,
-        portfolio: 0,
-        contacts: 0,
-        bookings: 0,
+      const timestamp = new Date().getTime();
+      const response = await fetch(`/api/admin/stats?_t=${timestamp}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' },
       });
+
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data.data || {
+          posts: 0,
+          portfolio: 0,
+          contacts: 0,
+          bookings: 0,
+        });
+      } else {
+        console.error("Failed to fetch stats");
+        // Keep default values of 0
+      }
     } catch (error) {
       console.error("Error fetching stats:", error);
+      // Keep default values of 0
     } finally {
       setLoading(false);
     }
