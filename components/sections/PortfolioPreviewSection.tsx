@@ -1,104 +1,146 @@
-import Link from "next/link";
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { portfolioItems } from "@/lib/siteConfig";
+import Link from "next/link";
+
+interface PortfolioItem {
+  id: string;
+  title: string;
+  category: string;
+  description?: string;
+  image_url: string;
+  url?: string;
+  technologies?: string[];
+  featured?: boolean;
+}
 
 export default function PortfolioPreviewSection() {
-  const featuredItems = portfolioItems.slice(0, 3);
+  const [items, setItems] = useState<PortfolioItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchItems();
+    // Refresh every 30 seconds to catch updates
+    const interval = setInterval(fetchItems, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchItems = async () => {
+    try {
+      const timestamp = new Date().getTime();
+      const response = await fetch(`/api/portfolio?featured=true&_t=${timestamp}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Get first 6 featured items
+        setItems((data.data || []).slice(0, 6));
+      }
+    } catch (error) {
+      console.error("Error fetching portfolio items:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (items.length === 0) {
+    return null; // Don't show section if no items
+  }
 
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 relative overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-600 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-500 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <div className="inline-block px-4 py-2 bg-primary-100 rounded-full mb-6">
-            <span className="text-sm font-semibold text-primary-700">Our Work</span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 text-gray-900">
-            Our Recent Work
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+            Featured Work
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Explore some of our successful projects in web design, branding, and digital marketing
+            Explore some of our successful projects and creative solutions
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {featuredItems.map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item) => (
             <div
               key={item.id}
-              className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border border-gray-100"
+              className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
             >
-              {/* Image Container */}
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src={item.image}
+                  src={item.image_url}
                   alt={item.title}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  unoptimized
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                {/* Overlay Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                  <span className="inline-block px-3 py-1 bg-accent-500 text-white text-xs font-semibold rounded-full mb-2">
+                {item.featured && (
+                  <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                    Featured
+                  </div>
+                )}
+              </div>
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-primary-600 font-semibold">
                     {item.category}
                   </span>
-                  <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
                 </div>
-              </div>
-
-              {/* Card Content */}
-              <div className="p-6">
-                <span className="text-sm text-primary-600 font-semibold uppercase tracking-wide">
-                  {item.category}
-                </span>
-                <h3 className="text-xl font-bold text-gray-900 mt-2 mb-3 group-hover:text-primary-600 transition-colors">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  {item.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {item.technologies.slice(0, 3).map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Shine Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                {item.description && (
+                  <p className="text-gray-600 mb-4 text-sm line-clamp-2">
+                    {item.description}
+                  </p>
+                )}
+                {item.technologies && item.technologies.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {item.technologies.slice(0, 3).map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {item.url && item.url !== "#" && (
+                  <Link
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-600 hover:text-primary-700 font-semibold text-sm"
+                  >
+                    View Project →
+                  </Link>
+                )}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="text-center">
+        <div className="text-center mt-12">
           <Link
             href="/portfolio"
-            className="group inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-bold rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300"
+            className="inline-block px-8 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors"
           >
-            <span>View All Projects</span>
-            <svg
-              className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            View All Portfolio
           </Link>
         </div>
       </div>
