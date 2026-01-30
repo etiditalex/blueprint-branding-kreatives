@@ -49,7 +49,7 @@ export default function Contact() {
   return (
     <div className="pt-24">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] md:min-h-[75vh] py-20 overflow-hidden flex items-center">
+      <section className="relative min-h-[60vh] md:min-h-[75vh] py-12 sm:py-20 overflow-hidden flex items-center">
         <div className="absolute inset-0">
           <Image
             src="https://res.cloudinary.com/dyfnobo9r/image/upload/v1768996139/contact-us-communication-support-service-assistance-concept_1_vuq9dw.jpg"
@@ -63,7 +63,7 @@ export default function Contact() {
       </section>
 
       {/* Contact Section (as per screenshot) */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 sm:py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-14 items-start">
             {/* Left: copy + contact details */}

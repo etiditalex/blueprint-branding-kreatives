@@ -23,6 +23,18 @@ body {
   line-height: 1.6;
 }
 
+/* Mobile: keep headings centered for space/scanability */
+@media (max-width: 639px) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-align: center !important;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

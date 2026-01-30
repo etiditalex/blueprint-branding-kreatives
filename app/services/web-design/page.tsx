@@ -9,7 +9,7 @@ export default function WebDesignSeoServicePage() {
   return (
     <div className="pt-24">
       {/* Hero */}
-      <section className="relative min-h-[70vh] py-20 overflow-hidden flex items-center">
+      <section className="relative min-h-[70vh] py-12 sm:py-20 overflow-hidden flex items-center">
         {/* Background image */}
         <div className="absolute inset-0">
           <Image
@@ -46,7 +46,7 @@ export default function WebDesignSeoServicePage() {
       </section>
 
       {/* Service intro (as per screenshot) */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 sm:py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -151,7 +151,7 @@ export default function WebDesignSeoServicePage() {
       </section>
 
       {/* Work CTA (as per screenshot) */}
-      <section className="bg-black py-16 md:py-24">
+      <section className="bg-black py-12 sm:py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-left sm:text-center">
           <h2 className="text-white font-extrabold uppercase tracking-widest text-4xl md:text-6xl">
             CHECK OUT OUR WORK
@@ -166,7 +166,7 @@ export default function WebDesignSeoServicePage() {
       </section>
 
       {/* Quote form (as per screenshot) */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 sm:py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-left sm:text-center font-serif italic text-4xl md:text-6xl text-gray-800 leading-tight">

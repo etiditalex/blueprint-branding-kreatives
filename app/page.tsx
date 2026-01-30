@@ -86,7 +86,7 @@ export default function Home() {
       <HeroSection />
 
       {/* Intro Section (matches screenshot style) */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -115,7 +115,7 @@ export default function Home() {
       </section>
 
       {/* Centered Intro Copy Section (matches screenshot style) */}
-      <section className="py-24 bg-white">
+      <section className="py-14 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -141,7 +141,7 @@ export default function Home() {
       </section>
 
       {/* Our Process (3-column, no top icons) */}
-      <section className="py-24 bg-white">
+      <section className="py-14 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -213,7 +213,7 @@ export default function Home() {
       <PastWorkCarousel />
 
       {/* Digital Marketing Excellence (headline section) */}
-      <section className="py-24 bg-white">
+      <section className="py-14 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -733,7 +733,7 @@ export default function Home() {
       </section>
 
       {/* SEO Lead Capture (matches screenshot style) */}
-      <section className="py-20 bg-black w-full">
+      <section className="py-12 sm:py-20 bg-black w-full">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -846,7 +846,7 @@ export default function Home() {
       />
 
       {/* Connect With Us (headline section) */}
-      <section className="py-24 bg-white">
+      <section className="py-14 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -873,7 +873,7 @@ export default function Home() {
       </section>
 
       {/* Digital Workshops + Training Enquiry (matches screenshot style) */}
-      <section className="py-20 w-full relative overflow-hidden">
+      <section className="py-12 sm:py-20 w-full relative overflow-hidden">
         {/* Background image (full width) */}
         <div className="absolute inset-0">
           <Image

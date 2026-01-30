@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function PrivacyPolicyPage() {
   return (
     <div className="pt-24 bg-white">
-      <section className="py-16 md:py-20">
+      <section className="py-10 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -28,7 +28,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </section>
 
-      <section className="pb-20 md:pb-28">
+      <section className="pb-12 sm:pb-20 md:pb-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

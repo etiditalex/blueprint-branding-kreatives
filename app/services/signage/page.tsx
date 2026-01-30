@@ -17,7 +17,7 @@ export default function SignSolutionsServicePage() {
   return (
     <div className="pt-24">
       {/* Hero */}
-      <section className="relative py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 overflow-hidden">
+      <section className="relative py-12 sm:py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -44,7 +44,7 @@ export default function SignSolutionsServicePage() {
       </section>
 
       {/* Content */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-5xl mx-auto">
             <motion.div
@@ -79,7 +79,7 @@ export default function SignSolutionsServicePage() {
               </div>
             </motion.div>
 
-            <div className="mt-14 flex justify-start sm:justify-center">
+            <div className="mt-10 sm:mt-14 flex justify-start sm:justify-center">
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-10 py-5 bg-accent-500 text-black rounded-lg font-extrabold tracking-wide hover:bg-accent-400 transition-colors"

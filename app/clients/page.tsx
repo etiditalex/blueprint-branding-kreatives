@@ -78,7 +78,7 @@ export default function Clients() {
   return (
     <div className="pt-24">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 overflow-hidden">
+      <section className="relative py-12 sm:py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -118,7 +118,7 @@ export default function Clients() {
       </section>
 
       {/* Clients Testimonials */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -176,7 +176,7 @@ export default function Clients() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-20 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

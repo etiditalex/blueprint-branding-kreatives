@@ -143,7 +143,7 @@ export default function About() {
       </section>
 
       {/* Our Story */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 sm:py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -235,7 +235,7 @@ export default function About() {
       />
 
       {/* Gallery */}
-      <section id="gallery" className="w-full bg-white py-20">
+      <section id="gallery" className="w-full bg-white py-12 sm:py-20">
         <div className="w-full px-4 sm:px-6 lg:px-10 xl:px-16">
           <motion.div
             initial={{ opacity: 0, y: 18 }}

@@ -85,7 +85,7 @@ export default function Portfolio() {
   return (
     <div className="pt-24">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 overflow-hidden">
+      <section className="relative py-12 sm:py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -126,7 +126,7 @@ export default function Portfolio() {
       </section>
 
       {/* Portfolio Grid */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-20 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatePresence mode="wait">
             <motion.div
@@ -173,7 +173,7 @@ export default function Portfolio() {
           </AnimatePresence>
 
           {filteredItems.length === 0 && (
-            <div className="text-left sm:text-center py-20">
+            <div className="text-left sm:text-center py-12 sm:py-20">
               <p className="text-xl text-gray-600">No projects found in this category.</p>
             </div>
           )}

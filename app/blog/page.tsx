@@ -117,7 +117,7 @@ export default function Blog() {
       </section>
 
       {/* Blog Posts Section */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-[1fr_360px] gap-14 items-start">
             {/* Left: posts */}
