@@ -305,7 +305,7 @@ export default function Home() {
       <section className="bg-white w-full">
         <div className="grid lg:grid-cols-2">
           {/* Left: centered content */}
-          <div className="px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
+          <div className="order-2 lg:order-1 px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -346,7 +346,7 @@ export default function Home() {
           </div>
 
           {/* Right: full-height image */}
-          <div className="relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
+          <div className="order-1 lg:order-2 relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
             <div className="absolute inset-0 p-6 sm:p-8 lg:p-10">
               <div className="relative w-full h-full">
                 <Image
@@ -427,7 +427,7 @@ export default function Home() {
       <section className="bg-white w-full">
         <div className="grid lg:grid-cols-2">
           {/* Left: centered content */}
-          <div className="px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
+          <div className="order-2 lg:order-1 px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -469,7 +469,7 @@ export default function Home() {
           </div>
 
           {/* Right: full-height image */}
-          <div className="relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
+          <div className="order-1 lg:order-2 relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
             {/* Inner padded area so the full image stays visible */}
             <div className="absolute inset-0 p-6 sm:p-8 lg:p-10">
               <div className="relative w-full h-full">
@@ -551,7 +551,7 @@ export default function Home() {
       <section className="bg-white w-full">
         <div className="grid lg:grid-cols-2">
           {/* Left: centered content */}
-          <div className="px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
+          <div className="order-2 lg:order-1 px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -593,7 +593,7 @@ export default function Home() {
           </div>
 
           {/* Right: full-height image */}
-          <div className="relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
+          <div className="order-1 lg:order-2 relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
             <div className="absolute inset-0 p-6 sm:p-8 lg:p-10">
               <div className="relative w-full h-full">
                 <Image
@@ -675,7 +675,7 @@ export default function Home() {
       <section className="bg-white w-full">
         <div className="grid lg:grid-cols-2">
           {/* Left: centered content */}
-          <div className="px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
+          <div className="order-2 lg:order-1 px-6 sm:px-10 lg:px-16 py-16 lg:py-0 flex items-center">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -716,7 +716,7 @@ export default function Home() {
           </div>
 
           {/* Right: full-height image */}
-          <div className="relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
+          <div className="order-1 lg:order-2 relative w-full h-[360px] sm:h-[460px] lg:h-[760px] bg-white">
             <div className="absolute inset-0 p-6 sm:p-8 lg:p-10">
               <div className="relative w-full h-full">
                 <Image
