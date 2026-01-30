@@ -24,9 +24,9 @@ export default function PrintingServicePage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-left sm:text-center"
           >
-            <div className="flex justify-center">
+            <div className="flex justify-start sm:justify-center">
               <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 shadow-lg">
                 <Printer className="w-10 h-10 text-white" />
               </div>
@@ -34,7 +34,7 @@ export default function PrintingServicePage() {
             <h1 className="mt-8 text-5xl md:text-6xl font-bold text-gray-900">
               Print Solutions
             </h1>
-            <p className="mt-6 text-xl text-gray-600 leading-relaxed">
+            <p className="mt-6 text-xl text-gray-600 leading-relaxed [text-align:justify] sm:text-center">
               High-quality digital and offset printing that represents your brand with clarity and
               professionalism—whether it’s business stationery, brochures, or large-format work.
             </p>
@@ -55,11 +55,11 @@ export default function PrintingServicePage() {
             >
               <div className="space-y-6">
                 <h2 className="text-4xl font-bold text-gray-900">Print that looks premium</h2>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed [text-align:justify] sm:[text-align:left]">
                   We help you choose the right materials and finishes for your brand, then deliver
                   clean, professional print outputs that are consistent with your identity.
                 </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed [text-align:justify] sm:[text-align:left]">
                   Need design too? We can design your artwork and prepare print-ready files for a
                   smooth production process.
                 </p>
@@ -78,7 +78,7 @@ export default function PrintingServicePage() {
               </div>
             </motion.div>
 
-            <div className="mt-14 flex justify-center">
+            <div className="mt-14 flex justify-start sm:justify-center">
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-10 py-5 bg-accent-500 text-black rounded-lg font-extrabold tracking-wide hover:bg-accent-400 transition-colors"

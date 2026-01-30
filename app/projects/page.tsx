@@ -119,10 +119,10 @@ export default function Projects() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-left sm:text-center"
           >
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Our Projects</h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-xl text-gray-600 leading-relaxed [text-align:justify] sm:text-center">
               Explore our portfolio of successful projects across branding, design, web development,
               and digital marketing.
             </p>
@@ -133,7 +133,7 @@ export default function Projects() {
       {/* Filter Section */}
       <section className="py-12 bg-white border-b border-gray-200 sticky top-24 z-40 backdrop-blur-sm bg-white/95">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-start sm:justify-center gap-4">
             <Filter className="w-5 h-5 text-gray-600" />
             {categories.map((category) => (
               <button
@@ -218,7 +218,7 @@ export default function Projects() {
           </AnimatePresence>
 
           {filteredProjects.length === 0 && (
-            <div className="text-center py-20">
+            <div className="text-left sm:text-center py-20">
               <p className="text-xl text-gray-600">No projects found in this category.</p>
             </div>
           )}
@@ -233,12 +233,12 @@ export default function Projects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center bg-gradient-to-r from-primary-600 to-accent-600 rounded-3xl p-12 shadow-2xl"
+            className="max-w-4xl mx-auto text-left sm:text-center bg-gradient-to-r from-primary-600 to-accent-600 rounded-3xl p-12 shadow-2xl"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Have a Project in Mind?
             </h2>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl text-white/90 mb-8 [text-align:justify] sm:text-center">
               Let's discuss how we can bring your vision to life with our creative expertise.
             </p>
             <Link

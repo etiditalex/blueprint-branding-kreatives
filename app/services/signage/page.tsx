@@ -24,9 +24,9 @@ export default function SignSolutionsServicePage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-left sm:text-center"
           >
-            <div className="flex justify-center">
+            <div className="flex justify-start sm:justify-center">
               <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-teal-500 to-blue-500 shadow-lg">
                 <Signpost className="w-10 h-10 text-white" />
               </div>
@@ -34,7 +34,7 @@ export default function SignSolutionsServicePage() {
             <h1 className="mt-8 text-5xl md:text-6xl font-bold text-gray-900">
               Sign Solutions
             </h1>
-            <p className="mt-6 text-xl text-gray-600 leading-relaxed">
+            <p className="mt-6 text-xl text-gray-600 leading-relaxed [text-align:justify] sm:text-center">
               Indoor and outdoor signage that boosts visibility and makes a strong first impression.
               From storefront branding to wayfinding and LED signs, we help you stand out in real
               spaces.
@@ -56,11 +56,11 @@ export default function SignSolutionsServicePage() {
             >
               <div className="space-y-6">
                 <h2 className="text-4xl font-bold text-gray-900">Visibility that lasts</h2>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed [text-align:justify] sm:[text-align:left]">
                   We design and produce signage that aligns with your brand identity and works in
                   the real world—readable, durable, and professionally finished.
                 </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed [text-align:justify] sm:[text-align:left]">
                   Whether you need a single storefront sign or a full signage system, we’ll guide
                   you from design to fabrication to installation-ready delivery.
                 </p>
@@ -79,7 +79,7 @@ export default function SignSolutionsServicePage() {
               </div>
             </motion.div>
 
-            <div className="mt-14 flex justify-center">
+            <div className="mt-14 flex justify-start sm:justify-center">
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-10 py-5 bg-accent-500 text-black rounded-lg font-extrabold tracking-wide hover:bg-accent-400 transition-colors"

@@ -150,7 +150,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-5xl mx-auto text-center"
+            className="max-w-5xl mx-auto text-left sm:text-center"
           >
             <div className="text-accent-500 text-3xl md:text-4xl font-serif italic">
               Our Story
@@ -160,7 +160,7 @@ export default function About() {
               The making of a successful Marketing Agency
             </h2>
 
-            <div className="mt-6 flex items-center justify-center">
+            <div className="mt-6 flex items-center justify-start sm:justify-center">
               <svg
                 width="72"
                 height="18"
@@ -186,7 +186,7 @@ export default function About() {
               </svg>
             </div>
 
-            <div className="mt-10 md:mt-12 text-lg md:text-xl text-gray-500 leading-relaxed space-y-8">
+            <div className="mt-10 md:mt-12 text-lg md:text-xl text-gray-500 leading-relaxed space-y-8 [text-align:justify] sm:text-center">
               <p>
                 Blueprint Branding Kreatives is a creative branding and digital marketing studio
                 built to help businesses look premium, communicate clearly, and grow with
@@ -242,7 +242,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
-            className="text-center"
+            className="text-left sm:text-center"
           >
             <p className="text-xs md:text-sm font-semibold tracking-[0.35em] text-gray-900/70">
               OUR WORK • GALLERY
@@ -250,7 +250,7 @@ export default function About() {
             <h2 className="mt-6 text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900">
               Gallery
             </h2>
-            <p className="mt-4 text-lg md:text-xl text-gray-500">
+            <p className="mt-4 text-lg md:text-xl text-gray-500 [text-align:justify] sm:text-center">
               A selection of graphic posters we’ve designed for clients.
             </p>
           </motion.div>

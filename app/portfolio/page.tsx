@@ -92,10 +92,10 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-left sm:text-center"
           >
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Our Portfolio</h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-xl text-gray-600 leading-relaxed [text-align:justify] sm:text-center">
               Explore our creative work and see how we've helped businesses transform their brands
               and achieve success.
             </p>
@@ -106,7 +106,7 @@ export default function Portfolio() {
       {/* Filter Section */}
       <section className="py-12 bg-white border-b border-gray-200 sticky top-24 z-40 backdrop-blur-sm bg-white/95">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-start sm:justify-center gap-4">
             <Filter className="w-5 h-5 text-gray-600" />
             {categories.map((category) => (
               <button
@@ -173,7 +173,7 @@ export default function Portfolio() {
           </AnimatePresence>
 
           {filteredItems.length === 0 && (
-            <div className="text-center py-20">
+            <div className="text-left sm:text-center py-20">
               <p className="text-xl text-gray-600">No projects found in this category.</p>
             </div>
           )}

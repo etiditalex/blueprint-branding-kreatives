@@ -123,12 +123,12 @@ export default function Services() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-left sm:text-center"
           >
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               Our Services
             </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-xl text-gray-600 leading-relaxed [text-align:justify] sm:text-center">
               Blueprint Branding Kreatives offers creative services including Graphic Design,
               Branding Solutions, Web Design and SEO Services, Digital Marketing & Content
               Optimization to enhance businesses' online presence and brand identity.
@@ -200,12 +200,12 @@ export default function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center text-white"
+            className="max-w-4xl mx-auto text-left sm:text-center text-white"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Ready to Get Started?
             </h2>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl text-white/90 mb-8 [text-align:justify] sm:text-center">
               Let's discuss how we can help transform your brand and boost your business
               performance.
             </p>

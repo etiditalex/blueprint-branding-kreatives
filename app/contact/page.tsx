@@ -74,7 +74,7 @@ export default function Contact() {
               transition={{ duration: 0.6 }}
               className="max-w-2xl"
             >
-              <div className="text-lg md:text-xl text-gray-400 leading-relaxed space-y-8">
+              <div className="text-lg md:text-xl text-gray-400 leading-relaxed space-y-8 [text-align:justify] sm:[text-align:left]">
                 <p>
                   Selecting the right marketing agency can make all the difference for your business.
                   So what sets Blueprint Branding Kreatives apart?

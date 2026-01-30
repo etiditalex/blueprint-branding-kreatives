@@ -40,7 +40,7 @@ export default function GraphicDesignServicePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto text-center"
+            className="max-w-6xl mx-auto text-left sm:text-center"
           >
             <div className="text-accent-500 text-3xl md:text-4xl font-serif italic">
               Our Services
@@ -50,7 +50,7 @@ export default function GraphicDesignServicePage() {
               Creative Graphic Design
             </h2>
 
-            <div className="mt-6 flex items-center justify-center">
+            <div className="mt-6 flex items-center justify-start sm:justify-center">
               <svg
                 width="84"
                 height="24"
@@ -76,7 +76,7 @@ export default function GraphicDesignServicePage() {
               </svg>
             </div>
 
-            <div className="mt-10 md:mt-12 max-w-5xl mx-auto text-lg md:text-xl text-gray-600 leading-relaxed space-y-8">
+            <div className="mt-10 md:mt-12 max-w-5xl mx-auto text-lg md:text-xl text-gray-600 leading-relaxed space-y-8 [text-align:justify] sm:text-center">
               <p>
                 An effective design reflects and supports your business strategy, sets you apart
                 from the competition, engages your customers, and strengthens trust in your brand.
@@ -96,7 +96,7 @@ export default function GraphicDesignServicePage() {
               ))}
             </ul>
 
-            <p className="mt-10 max-w-5xl mx-auto text-lg md:text-xl text-gray-600 leading-relaxed">
+            <p className="mt-10 max-w-5xl mx-auto text-lg md:text-xl text-gray-600 leading-relaxed [text-align:justify] sm:text-center">
               Please contact us for a tailored proposal and quote on your design project — we’ll be
               delighted to demonstrate our capacity to deliver exceptional results.
             </p>
@@ -136,7 +136,7 @@ export default function GraphicDesignServicePage() {
 
       {/* Work CTA (as per screenshot) */}
       <section className="bg-black py-16 md:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-left sm:text-center">
           <h2 className="text-white font-extrabold uppercase tracking-widest text-4xl md:text-6xl">
             CHECK OUT OUR WORK
           </h2>
@@ -153,7 +153,7 @@ export default function GraphicDesignServicePage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-center font-serif italic text-4xl md:text-6xl text-gray-800 leading-tight">
+            <h2 className="text-left sm:text-center font-serif italic text-4xl md:text-6xl text-gray-800 leading-tight">
               Get Creative Brand Design Quote
             </h2>
 

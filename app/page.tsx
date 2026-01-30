@@ -93,9 +93,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-5xl mx-auto text-center"
+            className="max-w-5xl mx-auto text-left sm:text-center"
           >
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-start sm:justify-center mb-8">
               <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
             </div>
 
@@ -122,16 +122,16 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-5xl mx-auto text-center"
+            className="max-w-5xl mx-auto text-left sm:text-center"
           >
-            <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
               Welcome to Blueprint Branding Kreatives, a leading branding and digital marketing
               agency based in Mombasa, Nyali — Links Road, opposite Kigotho&apos;s Hotel. It’s rare
               to find a creative firm that doesn’t describe itself as “passionate”, which can make
               identifying the right partner for your business a challenging task.
             </p>
 
-            <p className="mt-12 text-lg md:text-xl text-gray-400 leading-relaxed">
+            <p className="mt-12 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
               Strategic branding combines art, research, and execution—and we’re well-practiced. We
               use our experience and market understanding to differentiate your brand, define the
               most effective routes to market, and optimise lead generation and conversion.
@@ -148,7 +148,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center"
+            className="text-left sm:text-center"
           >
             <h2 className="text-5xl md:text-6xl font-extrabold text-gray-900">Our Process</h2>
           </motion.div>
@@ -183,7 +183,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.05 }}
-                className="text-center"
+                className="text-left sm:text-center"
               >
                 <p className="text-sm font-semibold tracking-[0.25em] text-accent-500">
                   {item.label}
@@ -197,7 +197,7 @@ export default function Home() {
                   {item.description}
                 </p>
 
-                <div className="mt-10 flex flex-col items-center">
+                <div className="mt-10 flex flex-col items-start sm:items-center">
                   <span className="h-14 w-1.5 bg-accent-500/70" />
                   <span className="mt-4 text-base font-semibold tracking-[0.2em] text-gray-900">
                     {item.number}
@@ -220,9 +220,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto text-center"
+            className="max-w-6xl mx-auto text-left sm:text-center"
           >
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-start sm:justify-center mb-8">
               <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
             </div>
 
@@ -266,9 +266,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -284,7 +284,7 @@ export default function Home() {
                 Start with a plan
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 Strategic Marketing is anything but the act of randomly spending budgets and
                 resources on trial-and-error campaigns. A marketing plan is critical.
               </p>
@@ -311,9 +311,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -329,7 +329,7 @@ export default function Home() {
                 Content Marketing Strategy
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 Content is King! The success of other marketing projects—brand positioning, lead
                 generation, and SEO—depends on the content strategy. We create relevant, engaging,
                 unique, searchable, and powerful content for your brand.
@@ -387,9 +387,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -405,7 +405,7 @@ export default function Home() {
                 Next, your branding
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 An effective brand sets you apart from the competition and attracts more clients.
                 We design your marketing materials and everything your business needs to present
                 itself to the market and win.
@@ -433,9 +433,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -451,7 +451,7 @@ export default function Home() {
                 Next, your website
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 Most of your marketing efforts are directed to your website, so it’s crucial that
                 it’s beautifully designed and professionally developed to attract, retain, and
                 convert visitors into clients. Blueprint Branding Kreatives specializes in just
@@ -511,9 +511,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -529,7 +529,7 @@ export default function Home() {
                 Next, some good photos
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 The quality of your photos and videos directly impact the success of your digital
                 marketing campaigns. A creative approach here is paramount. The world has also gone
                 video first, so needless to say that you need some Marketing Intelligence magic.
@@ -557,9 +557,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -575,7 +575,7 @@ export default function Home() {
                 Next, Publishing Solutions
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 If you are looking for a great publisher for your magazine, book, newsletter, or
                 annual report, you&apos;ll be pleased to know that we offer unparalleled publishing
                 solutions. Our heavy investment in this division avails you the right team and
@@ -634,9 +634,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -652,7 +652,7 @@ export default function Home() {
                 You&apos;re now good to go...
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 As a leading full service Digital Marketing Agency, we build and manage your online
                 brand presence, captivate your audience, and help you reach new markets. Blueprint
                 Branding Kreatives is your creative digital partner driving cost-effective results to
@@ -681,9 +681,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="w-full max-w-xl mx-auto text-center"
+              className="w-full max-w-xl mx-0 sm:mx-auto text-left sm:text-center"
             >
-              <div className="flex justify-center mb-7">
+              <div className="flex justify-start sm:justify-center mb-7">
                 <span className="h-12 w-1.5 bg-accent-500 rounded-full" />
               </div>
 
@@ -699,7 +699,7 @@ export default function Home() {
                 Get people talking
               </p>
 
-              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed">
+              <p className="mt-10 text-lg md:text-xl text-gray-400 leading-relaxed [text-align:justify] sm:text-center">
                 If you are going to invest in advertising, it is best to let a professional
                 marketing agency handle it for you, to ensure that both the message and the
                 platform are on point for maximum ROI.
@@ -740,7 +740,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto text-center"
+            className="max-w-6xl mx-auto text-left sm:text-center"
           >
             <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-semibold text-white tracking-[0.08em] uppercase leading-none">
               <span className="block md:whitespace-nowrap">
@@ -818,7 +818,7 @@ export default function Home() {
               </button>
 
               {isSeoLeadSubmitted && (
-                <div className="md:col-span-4 text-center text-accent-200">
+            <div className="md:col-span-4 text-left sm:text-center text-accent-200">
                   Thanks! We&apos;ll get back to you shortly.
                 </div>
               )}
@@ -853,9 +853,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto text-center"
+            className="max-w-6xl mx-auto text-left sm:text-center"
           >
-            <div className="flex justify-center mb-10">
+            <div className="flex justify-start sm:justify-center mb-10">
               <span className="h-16 w-1.5 bg-accent-500 rounded-full" />
             </div>
 
@@ -892,7 +892,7 @@ export default function Home() {
             <div className="w-full max-w-6xl mx-auto bg-white rounded-[22px] shadow-2xl border border-black/5 overflow-hidden">
               <div className="grid lg:grid-cols-2">
                   {/* Left: Express interest */}
-                  <div className="p-10 sm:p-12 lg:p-14 flex flex-col items-center text-center">
+                  <div className="p-10 sm:p-12 lg:p-14 flex flex-col items-start text-left sm:items-center sm:text-center">
                     <p className="text-xs md:text-sm font-semibold tracking-[0.45em] text-accent-500">
                       EXPRESS INTEREST
                     </p>
@@ -901,7 +901,7 @@ export default function Home() {
                       Digital Workshops
                     </h3>
 
-                    <p className="mt-8 text-lg md:text-xl text-gray-400 leading-relaxed max-w-md">
+                    <p className="mt-8 text-lg md:text-xl text-gray-400 leading-relaxed max-w-md [text-align:justify] sm:text-center">
                       Express your interest in attending our digital marketing workshops. From training to
                       troubleshooting, these are game-changing for individuals and corporate teams looking
                       to up their digital marketing game!
@@ -917,7 +917,7 @@ export default function Home() {
 
                   {/* Right: Training enquiry form */}
                   <div className="p-10 sm:p-12 lg:p-14 border-t border-black/5 lg:border-t-0 lg:border-l border-black/5">
-                    <p className="text-xs md:text-sm font-semibold tracking-[0.45em] text-accent-500 text-center">
+                    <p className="text-xs md:text-sm font-semibold tracking-[0.45em] text-accent-500 text-left sm:text-center">
                       TRAINING ENQUIRY
                     </p>
 
@@ -991,12 +991,12 @@ export default function Home() {
                       </div>
 
                       {isTrainingEnquirySubmitted && (
-                        <div className="text-center text-accent-600 font-semibold">
+                        <div className="text-left sm:text-center text-accent-600 font-semibold">
                           Thanks! We&apos;ll contact you shortly.
                         </div>
                       )}
 
-                      <div className="pt-2 flex justify-center">
+                      <div className="pt-2 flex justify-start sm:justify-center">
                         <button
                           type="submit"
                           disabled={isTrainingEnquirySubmitting}

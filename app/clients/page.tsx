@@ -85,10 +85,10 @@ export default function Clients() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-left sm:text-center"
           >
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Our Clients</h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-xl text-gray-600 leading-relaxed [text-align:justify] sm:text-center">
               We're proud to work with businesses of all sizes, helping them build memorable brands
               and achieve their goals.
             </p>
@@ -107,7 +107,7 @@ export default function Clients() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
+                className="text-left sm:text-center"
               >
                 <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
                 <div className="text-primary-100">{stat.label}</div>
@@ -125,12 +125,14 @@ export default function Clients() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-left sm:text-center mb-12"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               What Our Clients Say
             </h2>
-            <p className="text-xl text-gray-600">Testimonials from businesses we've helped succeed</p>
+            <p className="text-xl text-gray-600 [text-align:justify] sm:text-center">
+              Testimonials from businesses we've helped succeed
+            </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -181,12 +183,12 @@ export default function Clients() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center bg-gradient-to-r from-primary-600 to-accent-600 rounded-3xl p-12 shadow-2xl"
+            className="max-w-4xl mx-auto text-left sm:text-center bg-gradient-to-r from-primary-600 to-accent-600 rounded-3xl p-12 shadow-2xl"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Join Our Success Stories?
             </h2>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl text-white/90 mb-8 [text-align:justify] sm:text-center">
               Let's work together to transform your brand and achieve your business goals.
             </p>
             <a

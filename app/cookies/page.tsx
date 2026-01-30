@@ -13,7 +13,7 @@ export default function CookiesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-left sm:text-center"
           >
             <div className="text-sm uppercase tracking-[0.35em] text-accent-500 font-semibold">
               Legal
@@ -35,7 +35,7 @@ export default function CookiesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.05 }}
-            className="max-w-4xl mx-auto text-gray-600 text-lg leading-relaxed space-y-8"
+            className="max-w-4xl mx-auto text-gray-600 text-lg leading-relaxed space-y-8 [text-align:justify] sm:[text-align:left]"
           >
             <p>
               Cookies are small text files stored on your device when you visit a website. They help

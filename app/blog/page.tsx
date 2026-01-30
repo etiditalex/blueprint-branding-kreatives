@@ -123,7 +123,7 @@ export default function Blog() {
             {/* Left: posts */}
             <div>
               {/* Categories Filter */}
-              <div className="flex flex-wrap gap-3 mb-12 justify-center lg:justify-start">
+              <div className="flex flex-wrap gap-3 mb-12 justify-start sm:justify-center lg:justify-start">
                 {categories.map((category) => (
                   <button
                     key={category}
@@ -196,7 +196,7 @@ export default function Blog() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-center mt-12 lg:text-left"
+                className="text-left sm:text-center mt-12 lg:text-left"
               >
                 <button className="px-8 py-4 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-all transform hover:scale-105 shadow-lg">
                   Load More Posts
